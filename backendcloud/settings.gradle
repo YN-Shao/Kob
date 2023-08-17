@@ -1,0 +1,6 @@
+rootProject.name = 'backendcloud'
+include 'matchingsystem'
+include 'backend'
+include 'botrunningsystem'
+include 'botrunningsystem'
+
