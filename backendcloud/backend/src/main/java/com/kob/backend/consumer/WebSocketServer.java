@@ -27,7 +27,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 public class WebSocketServer {
     private Session session = null; //每个链接用session维护，对应一个用户
     private User user;
-    final public static ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();//用来存储所有的链接,对所有实例可见
+    final public static ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();//线程安全的，用来存储所有的链接,对所有实例可见
     public static UserMapper userMapper;
     public Game game = null;
     public static RecordMapper recordMapper;
@@ -63,7 +63,7 @@ public class WebSocketServer {
         this.user = userMapper.selectById(userId);
 
         if( this.user != null ){
-            users.put(userId, this);
+            users.put(userId, this);//ConcurrentHashMap<Integer, WebSocketServer> users
         }else{
             this.session.close();
         }
@@ -78,7 +78,6 @@ public class WebSocketServer {
         if( this.user != null) {
             users.remove(this.user.getId());
         }
-
     }
 
     public static void startGame(Integer aId, Integer aBotId, Integer bId, Integer bBotId){
@@ -159,7 +158,7 @@ public class WebSocketServer {
 
     @OnMessage
     public void onMessage(String message, Session session) {
-        // 从Client接收消息
+        // 从Client接收消息时触发此函数
         JSONObject data = JSONObject.parseObject(message);
         String event = data.getString("event");//接收前端传来的"event"
         if("start-matching".equals(event)){

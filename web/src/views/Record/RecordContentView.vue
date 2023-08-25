@@ -4,7 +4,7 @@
 
 <script>
 
-import PlayGround from '../../components/PlayGround.vue'
+import PlayGround from '../../components/Snake/PlayGround.vue'
 
 
 export default{

@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import SnakeIntroductionView from '../views/Introduction/SnakeIntroductionView'
+import GomokuIntroductionView from '../views/Introduction/GomokuIntroductionView'
 import PkIndexView from '../views/PK/PkIndexView'
+import PkGomokuIndexView from '../views/PK/PkGomokuIndexView'
 import RanklistIndexView from '../views/RankList/RanklistIndexView'
 import RecordContentView from '../views/Record/RecordContentView'
 import NotfoundView from '../views/Error/NotfoundView'
@@ -7,17 +10,36 @@ import RecordIndexView from '../views/Record/RecordIndexView'
 import UserbotIndexView from '../views/User/Bots/UserbotIndexView'
 import UserAccountLoginView from '../views/User/account/UserAccountLoginView'
 import UserAccountRegisterView from '../views/User/account/UserAccountRegisterView'
+import HomeIndexView from '../views/Home/HomeIndexView'
 import store from'../store/index'
  
 const routes=[
   {
-    path: "/",
+    path: "/home/",
     name : "home",
-    redirect :"/PK/",
     meta:{
       requestAuth: true, //给每个页面增加一个meta域，判断是否需要授权
-    }
+    },
+    component:HomeIndexView,
   },
+
+  {
+    path : "/Introduction/Gomoku/",
+    name : "Introduction_Gomoku",
+    meta:{
+      requestAuth: true, 
+    },
+    component:GomokuIntroductionView,
+  },
+  {
+    path : "/Introduction/Snake/",
+    name : "Introduction_Snake",
+    meta:{
+      requestAuth: true, 
+    },
+    component:SnakeIntroductionView,
+  },
+
   {
     path : "/PK/",
     name : "PK_index",
@@ -25,6 +47,14 @@ const routes=[
       requestAuth: true, 
     },
     component:PkIndexView,
+  },
+  {
+    path : "/PK/Gomoku/",
+    name : "PK_Gomoku_index",
+    meta:{
+      requestAuth: true, 
+    },
+    component:PkGomokuIndexView,
   },
   {
     path : "/404/",

@@ -21,7 +21,7 @@ public class LoginServiceImpl implements LoginService {
     public Map<String, String> getToken(String username, String password) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);//如果登录失败会自动处理，抛出异常。
-        UserDetailImpl loginUser = (UserDetailImpl) authenticate.getPrincipal();//获取登录用户信息 背过即可
+        UserDetailImpl loginUser = (UserDetailImpl) authenticate.getPrincipal();//获取登录用户信息
         User user = loginUser.getUser();
 
         String jwt = JwtUtil.createJWT(user.getId().toString());//将userid封装成jwt token

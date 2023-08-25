@@ -8,7 +8,7 @@ public class JwtAuthentication {
         int userId = -1;
         try {
             Claims claims = JwtUtil.parseJWT(token);
-            userId = Integer.parseInt(claims.getSubject());
+            userId = Integer.parseInt(claims.getSubject());//能解析出UserID就合法
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

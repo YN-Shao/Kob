@@ -1,5 +1,4 @@
 <template>
-    
     <div class = "playground">
    <GameMap />
     </div>
@@ -13,8 +12,6 @@ export default{
         GameMap,
     }
 }
-
-
 </script>
 
 <style scoped>

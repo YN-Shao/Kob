@@ -12,7 +12,7 @@
                             <input v-model="password" type="password" class="form-control" id="password" aria-describedby="Please input password">
                         </div>
                         <div class="error-message">{{ error_message }}</div>
-                        <button type="submit" class="btn btn-dark">Sumbit</button>
+                        <button type="submit" class="btn btn-dark">Submit</button>
                     </form>
             </div>
         </div>

@@ -8,7 +8,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <router-link :class="route_name == 'PK_index'? 'nav-link active' : 'nav-link'" :to="{name:'home'}">Fight</router-link>
+          <router-link :class="route_name == 'PK_index'? 'nav-link active' : 'nav-link'" :to="{name:'PK_index'}">Fight</router-link>
         </li>
         <li class="nav-item">
           <router-link :class="route_name == 'record_index'? 'nav-link active' : 'nav-link'" :to="{name:'record_index'}">List</router-link>
