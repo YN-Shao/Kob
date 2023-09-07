@@ -12,7 +12,6 @@
         <button @click="goToPKIndex">Play Snake</button>
       </div>
     </div>
-    
     <!-- 中间部分 -->
     <div style="flex-grow: 1;"></div>
 
@@ -75,6 +74,7 @@ export default{
         let total_users = 0;
         let pages = ref([]);
 
+
         const router = useRouter();
 
         const goToPKIndex = () => {
@@ -112,6 +112,7 @@ export default{
                     url:"http://127.0.0.1:3000/ranklist/getlist/",
                     data:{
                         page,
+                        gameId: 1
                     },
                     type:"get",
                     headers:{
