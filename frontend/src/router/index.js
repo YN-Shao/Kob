@@ -10,6 +10,7 @@ import RecordIndexView from '../views/Record/RecordIndexView'
 import UserbotIndexView from '../views/User/Bots/UserbotIndexView'
 import UserAccountLoginView from '../views/User/account/UserAccountLoginView'
 import UserAccountRegisterView from '../views/User/account/UserAccountRegisterView'
+import UserProfileView from '../views/User/UserProfileView'
 import HomeIndexView from '../views/Home/HomeIndexView'
 import store from'../store/index'
  
@@ -24,7 +25,7 @@ const routes=[
   },
 
   {
-    path : "/Introduction/Gomoku/",
+    path : "/Introduction/gomoku/",
     name : "Introduction_Gomoku",
     meta:{
       requestAuth: true, 
@@ -32,7 +33,7 @@ const routes=[
     component:GomokuIntroductionView,
   },
   {
-    path : "/Introduction/Snake/",
+    path : "/Introduction/snake/",
     name : "Introduction_Snake",
     meta:{
       requestAuth: true, 
@@ -88,6 +89,14 @@ const routes=[
       requestAuth: true, 
     },
     component:UserbotIndexView,
+  },
+  {
+    path : "/User/profile/",
+    name : "user_profile",
+    meta:{
+      requestAuth: true, 
+    },
+    component:UserProfileView,
   },
   {
     path : "/ranklist/",

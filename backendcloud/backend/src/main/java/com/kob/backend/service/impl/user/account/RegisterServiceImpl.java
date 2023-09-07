@@ -1,16 +1,22 @@
 package com.kob.backend.service.impl.user.account;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.kob.backend.mapper.GameMapper;
+import com.kob.backend.mapper.RatingMapper;
 import com.kob.backend.mapper.UserMapper;
+import com.kob.backend.pojo.Game;
+import com.kob.backend.pojo.Rating;
 import com.kob.backend.pojo.User;
 import com.kob.backend.service.user.account.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 @Service
 public class RegisterServiceImpl implements RegisterService {
@@ -18,7 +24,14 @@ public class RegisterServiceImpl implements RegisterService {
     private UserMapper userMapper;
 
     @Autowired
+    private RatingMapper ratingMapper;
+
+    @Autowired
+    private GameMapper gameMapper;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
+    @Transactional
     @Override
     public Map<String, String> register(String username, String password, String confirmPassword) {
         Map<String,String> map = new HashMap<>();
@@ -56,7 +69,7 @@ public class RegisterServiceImpl implements RegisterService {
         queryWrapper.eq("username",username);
         List<User> users = userMapper.selectList(queryWrapper); //根据用户名查询用户
         if(users.size() != 0){
-            map.put("error_message","User already exit");
+            map.put("error_message","User already exists");
             return map;
         }
 
@@ -64,6 +77,15 @@ public class RegisterServiceImpl implements RegisterService {
         String photo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUO9e5Hydo9Cdn8CSCOoJvxWi4huO6bFJb0A&usqp=CAU";
         User user = new User(null, username, encodedPassword, photo,1500);
         userMapper.insert(user);
+
+        // 为新用户初始化评分
+        Integer newUserId = user.getId();
+        List<Game> allGames = gameMapper.selectList(new QueryWrapper<>());
+        for (Game game : allGames) {
+            Integer gameId = game.getId();
+            Rating newRating = new Rating(newUserId, gameId, 1500);
+            ratingMapper.insert(newRating);
+        }
 
         map.put("error_message","success");
         return map;

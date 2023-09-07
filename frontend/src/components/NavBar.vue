@@ -22,10 +22,11 @@
              {{$store.state.user.username}}
           </a>
           <ul class="dropdown-menu">
-         
           <router-link class="dropdown-item" :to="{name:'user_bot_index'}">My Bot</router-link>
           <li><hr class = "dropdown-divider"></li>
-          <li><a class="dropdown-item" href="#" @click="logout">Exit</a></li>
+          <router-link class="dropdown-item" :to="{name:'user_profile'}">Profile</router-link>
+          <li><hr class = "dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#" @click="logout">Log out</a></li>
          </ul>
         </ul>
         <ul class="navbar-nav" v-else-if="!$store.state.user.pulling_info" >

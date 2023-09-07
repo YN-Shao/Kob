@@ -6,8 +6,6 @@ import lombok.Data;
 
 @Data
 public class Rating {
-    @TableId(type = IdType.AUTO)
-    private Integer id;
 
     private Integer userId;
 
@@ -19,21 +17,14 @@ public class Rating {
     public Rating() {}
 
     // 带所有参数的构造函数
-    public Rating(Integer id, Integer userId, Integer gameId, Integer score) {
-        this.id = id;
+    public Rating(Integer userId, Integer gameId, Integer score) {
         this.userId = userId;
         this.gameId = gameId;
         this.score = score;
     }
 
     // getter 和 setter 方法
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public Integer getUserId() {
         return userId;
@@ -63,7 +54,6 @@ public class Rating {
     @Override
     public String toString() {
         return "Rating{" +
-                "id=" + id +
                 ", userId=" + userId +
                 ", gameId=" + gameId +
                 ", score=" + score +
