@@ -12,6 +12,7 @@ import UserAccountLoginView from '../views/User/account/UserAccountLoginView'
 import UserAccountRegisterView from '../views/User/account/UserAccountRegisterView'
 import UserProfileView from '../views/User/UserProfileView'
 import HomeIndexView from '../views/Home/HomeIndexView'
+import CommunityIndexView from  '../views/Community/CommunityIndexView'
 import store from'../store/index'
  
 const routes=[
@@ -105,6 +106,14 @@ const routes=[
       requestAuth: true, 
     },
     component:RanklistIndexView,
+  },
+  {
+    path : "/community/",
+    name : "community_index",
+    meta:{
+      requestAuth: true, 
+    },
+    component:CommunityIndexView,
   },
   {
     path : "/user/account/login/",

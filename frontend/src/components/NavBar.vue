@@ -14,7 +14,7 @@
           <router-link :class="route_name == 'record_index'? 'nav-link active' : 'nav-link'" :to="{name:'record_index'}">List</router-link>
         </li>
         <li class="nav-item">
-          <router-link :class="route_name == 'RankList_index'? 'nav-link active' : 'nav-link'" :to="{name:'RankList_index'}">Rank</router-link>
+          <router-link :class="route_name == 'RankList_index'? 'nav-link active' : 'nav-link'" :to="{name:'community_index'}">Community</router-link>
         </li>
         </ul>
         <ul class="dropdown" v-if ="$store.state.user.is_login">

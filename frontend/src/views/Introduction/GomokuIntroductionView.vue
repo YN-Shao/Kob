@@ -1,18 +1,32 @@
+
 <template>
   <div class="container">
     <!-- 左边三分之一的部分 -->
     <div class="left-section">
       <!-- 上面是一张图片 -->
       <div class="image-container">
-        <img src="your-image-url-here" alt="Description">
+        <img src="src/assets/image/snake.jpg" >
       </div>
       <!-- 下面是一个Play的button -->
       <div class="button-container">
-        <button @click="goToPKIndex">Play Gomoku</button>
+        <button type="button" class="btn btn-light" @click="goToPKIndex">Play now</button>
+
       </div>
     </div>
     <!-- 中间部分 -->
     <div style="flex-grow: 1;"></div>
+
+    <div class="description-container">
+    <div class="card">
+      <div class="card-header">
+        About The Game
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">Gomoku Game</h5>
+        <p class="card-text"></p>
+      </div>
+    </div>
+  </div>
 
     <!-- 右边的排行榜部分 -->
     <div class="ranklist-container">
@@ -77,7 +91,7 @@ export default{
         const router = useRouter();
 
         const goToPKIndex = () => {
-          router.push({ name: "PK_Gomoku_index" });
+          router.push({ name: "PK_index" });
         }
 
         const click_page = page => {
@@ -159,13 +173,41 @@ export default{
   }
 
   .container {
-    display: flex;
-    justify-content: flex-end;
-  }
+  display: flex;
+  justify-content: space-between; 
+}
 
-  .ranklist-container {
-    width: 40%;
-  }
+.left-section {
+  flex-basis: 30%; 
+  max-width: 30%;  
+}
+
+.image-container img {
+  width: 100%;
+  margin-top: 0.8cm;
+}
+
+.description-container {
+  flex-basis: 38%;  
+  max-width: 38%;  
+  padding: 1rem;
+}
+
+.button-container {
+  text-align: center;  
+  margin-top: 2cm;
+}
+
+.button-container button {
+  width: 100%;
+  font-size: 1.2rem;
+  padding: 12px;
+}
+
+.ranklist-container {
+  flex-basis: 30%;  
+  max-width: 30%;  
+  margin-left: 1rem;  
+}
 </style>
-
 
