@@ -83,6 +83,56 @@ export default ({
     logout(context){
       localStorage.removeItem("jwt_token");
       context.commit("logout");
+    },
+
+    getProfileInfo(context) {
+      return new Promise((resolve, reject) => {
+          $.ajax({
+              url: "http://127.0.0.1:3000/user/account/info/",
+              type: "get",
+              headers: {
+                  Authorization: "Bearer " + context.state.token,
+              },
+              success(resp) {
+                  if (resp.error_message === "success") {
+                      context.commit("updateUser", {
+                          ...resp,
+                          is_login: true,
+                      });
+                      resolve(resp);
+                  } else {
+                      reject(resp);
+                  }
+              },
+              error(resp) {
+                  reject(resp);
+              }
+          });
+      });
+    },
+
+    updateProfileInfo(context, data) {
+      return new Promise((resolve, reject) => {
+          $.ajax({
+              url: "http://127.0.0.1:3000/user/account/update/",
+              type: "post",
+              headers: {
+                  Authorization: "Bearer " + context.state.token,
+                  'Content-Type': 'application/json'
+              },
+              data: JSON.stringify(data),
+              success(resp) {
+                  if (resp.message === "User information updated successfully") {
+                      resolve(resp);
+                  } else {
+                      reject(resp);
+                  }
+              },
+              error(resp) {
+                  reject(resp);
+              }
+          });
+      });
     }
   },
   modules: {
