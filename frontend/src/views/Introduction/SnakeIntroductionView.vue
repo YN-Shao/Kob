@@ -5,7 +5,7 @@
     <div class="left-section">
       <!-- 上面是一张图片 -->
       <div class="image-container">
-        <img src="src/assets/image/snake.jpg" >
+        <img :src="require('@/assets/image/snake.jpg')" >
       </div>
       <!-- 下面是一个Play的button -->
       <div class="button-container">
@@ -22,8 +22,26 @@
         About The Game
       </div>
       <div class="card-body">
-        <h5 class="card-title">Snake Game</h5>
-        <p class="card-text"></p>
+        <h5 class="card-title" style="font-weight: bold;">King of Snakes</h5>
+<p class="card-text">
+  <strong>Become the smartest snake!</strong> 
+  <br><strong style="color: green;">Game Rules:</strong> The snake will die if its head collides with an obstacle or any part of another snake's body.
+  <br><strong style="color: blue;">Manual Play:</strong> Use <span style="font-family: 'Courier New', monospace;">ASDW</span> to control the snake's movement.
+  <br><strong style="color: red;">Bot Play:</strong> Implement <span style="font-family: 'Courier New', monospace;">BotInterface</span>, which includes <span style="font-family: 'Courier New', monospace;">Integer nextMove(String input)</span>function, where <span style="font-family: 'Courier New', monospace;">input</span> consists of 7 parts：
+  <br><strong style="color: purple;">Return Values:</strong> A return value of 0-4 represents the four directions: left, up, right, down.
+  <br><strong style="color: orange;">MapString():</strong> A 13x14 center-symmetric matrix, where 0 represents an empty space and 1 represents an obstacle.
+  <br><strong style="color: brown;">getSx, getSy:</strong> Retrieve the head positions for both players.
+  <br><strong style="color: teal;">getStepString():</strong> Retrieve the positions of the body.
+  <br><span style="font-family: 'Courier New', monospace;">Input : MapString() + "#" +       
+      me.getSx() + "#" +
+      me.getSy() + "#(" +
+      me.getStepString() + ")#" +
+      you.getSx() + "#" +
+      you.getSy() + "#(" +
+      you.getStepString() + ")</span>";
+</p>
+
+
       </div>
     </div>
   </div>
@@ -175,6 +193,7 @@ export default{
   .container {
   display: flex;
   justify-content: space-between; 
+  align-items: flex-start;
 }
 
 .left-section {
@@ -195,18 +214,18 @@ export default{
 
 .button-container {
   text-align: center;  
-  margin-top: 2cm;
+  margin-top: 1cm;
 }
 
 .button-container button {
   width: 100%;
   font-size: 1.2rem;
-  padding: 12px;
+  padding: 10px;
 }
 
 .ranklist-container {
-  flex-basis: 30%;  
-  max-width: 30%;  
+  flex-basis: 33%;  
+  max-width: 33%;  
   margin-left: 1rem;  
 }
 </style>

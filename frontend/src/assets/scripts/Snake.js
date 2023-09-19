@@ -118,7 +118,7 @@ export class Snack extends AcGameObjects{
 
         for(const cell of this.cells){
             ctx.beginPath();
-            ctx.arc(cell.x * L, cell.y * L, L/2 *0.6, 0, Math.PI*2);
+            ctx.arc(cell.x * L, cell.y * L, L/2 *0.8, 0, Math.PI*2);
             ctx.fill();
         }
         for(let i=1 ; i < this.cells.length; i++){
@@ -126,10 +126,10 @@ export class Snack extends AcGameObjects{
             if( Math.abs(a.x - b.x) < this.eps && Math.abs(a.y - b.y) < this.eps)
                 continue;
             if( Math.abs(a.x - b.x) < this.eps){
-                ctx.fillRect((a.x - 0.3) * L, Math.min(a.y, b.y)*L,L*0.6, Math.abs(a.y - b.y) * L);
+                ctx.fillRect((a.x - 0.4) * L, Math.min(a.y, b.y)*L,L*0.8, Math.abs(a.y - b.y) * L);
             }
             else{
-                ctx.fillRect(Math.min(a.x, b.x)*L, (a.y - 0.3) * L, Math.abs(a.x - b.x)*L , L*0.6)
+                ctx.fillRect(Math.min(a.x, b.x)*L, (a.y - 0.4) * L, Math.abs(a.x - b.x)*L , L*0.8)//use square to cover round
             }
         }
         ctx.fillStyle = "black";
