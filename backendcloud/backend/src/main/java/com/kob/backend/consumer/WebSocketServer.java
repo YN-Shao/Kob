@@ -2,6 +2,7 @@ package com.kob.backend.consumer;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.kob.backend.consumer.utils.Game;
+import com.kob.backend.consumer.utils.Chess;
 import com.kob.backend.consumer.utils.JwtAuthentication;
 import com.kob.backend.mapper.BotMapper;
 import com.kob.backend.mapper.RecordMapper;
@@ -30,6 +31,7 @@ public class WebSocketServer {
     final public static ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();//用来存储所有的链接,对所有实例可见
     public static UserMapper userMapper;
     public Game game = null;
+    public Chess chess = null;
     public static RecordMapper recordMapper;
     private static BotMapper botMapper;
     public static RestTemplate restTemplate ;//可以让两个服务之间互相通信
@@ -112,6 +114,54 @@ public class WebSocketServer {
         respGame.put("b_sx", game.getPlayerB().getSx());
         respGame.put("b_sy", game.getPlayerB().getSy());
         respGame.put("map", game.getG());
+
+        JSONObject respA = new JSONObject();
+        respA.put("event", "start-matching");
+        respA.put("opponent_username", user2.getUsername());
+        respA.put("opponent_photo", user2.getPhoto());
+        respA.put("game", respGame);
+        if(users.get(user1.getId()) != null)
+            users.get(user1.getId()).sendMessage(respA.toJSONString());
+
+        JSONObject respB = new JSONObject();
+        respB.put("event", "start-matching");
+        respB.put("opponent_username", user1.getUsername());
+        respB.put("opponent_photo", user1.getPhoto());
+        respB.put("game", respGame);
+        if(users.get(user2.getId()) != null)
+            users.get(user2.getId()).sendMessage(respB.toJSONString());
+    }
+
+    public static void startChess(Integer aId, Integer aBotId, Integer bId, Integer bBotId){
+        User user1 = userMapper.selectById(aId), user2 = userMapper.selectById(bId);
+        Bot botA = botMapper.selectById(aBotId), botB = botMapper.selectById(bBotId);
+
+        Chess chess = new Chess(
+                19,
+                19,
+                user1.getId(),
+                botA,
+                user2.getId(),
+                botB
+        );
+        chess.createMap();
+        if(users.get(user1.getId()) != null){
+            users.get(user1.getId()).chess = chess;
+        }
+        if(users.get(user2.getId()) != null){
+            users.get(user2.getId()).chess = chess;
+        }
+
+        chess.start();
+
+        JSONObject respGame = new JSONObject();
+        respGame.put("a_id", chess.getPlayerA().getId());
+        respGame.put("a_sx", chess.getPlayerA().getSx());
+        respGame.put("a_sy", chess.getPlayerA().getSy());
+        respGame.put("b_id", chess.getPlayerB().getId());
+        respGame.put("b_sx", chess.getPlayerB().getSx());
+        respGame.put("b_sy", chess.getPlayerB().getSy());
+        respGame.put("map", chess.getG());
 
         JSONObject respA = new JSONObject();
         respA.put("event", "start-matching");

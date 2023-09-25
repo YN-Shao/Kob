@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/user/account/token/", "/user/account/register/").permitAll()
-                .antMatchers("/pk/start/game/","/pk/receive/bot/move/","/record/getlist/").hasIpAddress("127.0.0.1")
+                .antMatchers("/pk/start/game/","/pk/receive/bot/move/", "/pk/start/chess/","/pk/receive/bot/chess/move/", "/record/getlist/").hasIpAddress("127.0.0.1")
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyRequest().authenticated();
 

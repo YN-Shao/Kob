@@ -14,6 +14,7 @@ public class RegisterController {
     private RegisterService registerService;
     @PostMapping("/user/account/register/") //记得要在SecurityConfig中配置使其公开化
     public Map<String, String> register(@RequestParam Map<String,String> map){
+        System.out.println(map.get("username"));
         String username = map.get("username");
         String password = map.get("password");
         String confirmedPassword = map.get("confirmedPassword");
