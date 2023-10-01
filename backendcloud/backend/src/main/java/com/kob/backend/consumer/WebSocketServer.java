@@ -25,7 +25,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class WebSocketServer {
     private Session session = null; //每个链接用session维护，对应一个用户
     private User user;
-    final public static ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();//线程安全的，用来存储所有的链接,对所有实例可见
+
+    //为了可以根据用户ID找到对应的链接，才可以给Client发请求，ConcurrentHashMap是线程安全的，用来存储所有的链接,对所有实例可见
+    final public static ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();
     public static UserMapper userMapper;
     public GameSnake gameSnake = null;
     public static RecordMapper recordMapper;
