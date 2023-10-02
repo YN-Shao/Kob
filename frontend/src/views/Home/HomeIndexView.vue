@@ -41,17 +41,19 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  margin-top: -50px;
+  margin-bottom: 200px;
 }
 
 .game-selection {
   display: flex;
   justify-content: center;
-  gap: 30px;
+  gap: 60px;
 }
 
 .game-box {
-  width: 400px;
-  height: 300px;
+  width: 600px;
+  height: 500px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -66,11 +68,11 @@ export default {
 
 .game-box:hover {
   transform: scale(1.05);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.9);
 }
 
 .snake {
-  background-image: url('https://www.coolmathgames.com/sites/default/files/Snake_OG-logo.jpg');
+  background-image: url('https://i.etsystatic.com/20027195/r/il/ebe5f2/3894622064/il_fullxfull.3894622064_ojz8.jpg');
 }
 
 .gomoku {
