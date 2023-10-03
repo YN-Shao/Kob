@@ -35,32 +35,32 @@ public Map<String,String> update(Map<String,String> data) {
 
         Map<String, String> map = new HashMap<>();
         if (title == null  || title.isEmpty() || content == null || content.isEmpty()) {
-            map.put("error_message", "title, content can't be null");
+            map.put("error_message", "Title and Content can't be null");
             return map;
         }
         if (title.length() > 100) {
-            map.put("error_message", "title is too long");
+            map.put("error_message", "Title is too long");
             return map;
         }
         if (description == null || description.isEmpty()) {
             description = "Nothing here";
         }
         if (description.length() > 300) {
-            map.put("error_message", "description is too long");
+            map.put("error_message", "Description is too long");
             return map;
         }
         if (content.length() > 10000) {
-            map.put("error_message", "content is too long");
+            map.put("error_message", "Content is too long");
             return map;
         }
 
         Bot bot = botMapper.selectById(bot_id);
         if(bot == null){
-            map.put("error_message","bot doesn't exist");
+            map.put("error_message","Bot doesn't exist");
             return map;
         }
         if(!bot.getUserId().equals(user.getId())){
-            map.put("error_message","you don't have permission to update this bot");
+            map.put("error_message","You don't have permission to update this bot");
             return map;
         }
         Bot new_bot = new Bot(

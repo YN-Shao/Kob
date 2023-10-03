@@ -1,8 +1,8 @@
 package com.kob.backend.consumer;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.kob.backend.consumer.utils.Game;
 import com.kob.backend.consumer.utils.Chess;
+import com.kob.backend.consumer.utils.GameSnake;
 import com.kob.backend.consumer.utils.JwtAuthentication;
 import com.kob.backend.mapper.BotMapper;
 import com.kob.backend.mapper.RecordMapper;
@@ -19,19 +19,17 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 @Component
 @ServerEndpoint("/websocket/{token}")  // 注意不要以'/'结尾
 public class WebSocketServer {
     private Session session = null; //每个链接用session维护，对应一个用户
     private User user;
-    final public static ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();//用来存储所有的链接,对所有实例可见
+    final public static ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();//线程安全的，用来存储所有的链接,对所有实例可见
     public static UserMapper userMapper;
-    public Game game = null;
     public Chess chess = null;
+    public GameSnake gameSnake = null;
     public static RecordMapper recordMapper;
     private static BotMapper botMapper;
     public static RestTemplate restTemplate ;//可以让两个服务之间互相通信
@@ -65,7 +63,7 @@ public class WebSocketServer {
         this.user = userMapper.selectById(userId);
 
         if( this.user != null ){
-            users.put(userId, this);
+            users.put(userId, this);//ConcurrentHashMap<Integer, WebSocketServer> users
         }else{
             this.session.close();
         }
@@ -80,14 +78,13 @@ public class WebSocketServer {
         if( this.user != null) {
             users.remove(this.user.getId());
         }
-
     }
 
     public static void startGame(Integer aId, Integer aBotId, Integer bId, Integer bBotId){
         User user1 = userMapper.selectById(aId), user2 = userMapper.selectById(bId);
         Bot botA = botMapper.selectById(aBotId), botB = botMapper.selectById(bBotId);
 
-        Game game = new Game(
+        GameSnake gameSnake = new GameSnake(
                 13,
                 14,
                 20,
@@ -96,24 +93,24 @@ public class WebSocketServer {
                 user2.getId(),
                 botB
         );
-        game.createMap();
+        gameSnake.createMap();
         if(users.get(user1.getId()) != null){
-            users.get(user1.getId()).game = game;
+            users.get(user1.getId()).gameSnake = gameSnake;
         }
         if(users.get(user2.getId()) != null){
-            users.get(user2.getId()).game = game;
+            users.get(user2.getId()).gameSnake = gameSnake;
         }
 
-        game.start();
+        gameSnake.start();
 
         JSONObject respGame = new JSONObject();
-        respGame.put("a_id", game.getPlayerA().getId());
-        respGame.put("a_sx", game.getPlayerA().getSx());
-        respGame.put("a_sy", game.getPlayerA().getSy());
-        respGame.put("b_id", game.getPlayerB().getId());
-        respGame.put("b_sx", game.getPlayerB().getSx());
-        respGame.put("b_sy", game.getPlayerB().getSy());
-        respGame.put("map", game.getG());
+        respGame.put("a_id", gameSnake.getPlayerA().getId());
+        respGame.put("a_sx", gameSnake.getPlayerA().getSx());
+        respGame.put("a_sy", gameSnake.getPlayerA().getSy());
+        respGame.put("b_id", gameSnake.getPlayerB().getId());
+        respGame.put("b_sx", gameSnake.getPlayerB().getSx());
+        respGame.put("b_sy", gameSnake.getPlayerB().getSy());
+        respGame.put("map", gameSnake.getG());
 
         JSONObject respA = new JSONObject();
         respA.put("event", "start-matching");
@@ -198,18 +195,18 @@ public class WebSocketServer {
     }
 
     private void move(int direction){
-        if(game.getPlayerA().getId().equals(user.getId())){
-            if(game.getPlayerA().getBotId().equals(-1))//如果是人类玩家再接受操作，否则屏蔽
-                game.setNextStepA(direction);
-        }else if(game.getPlayerB().getId().equals(user.getId())){
-            if(game.getPlayerB().getBotId().equals(-1))
-                game.setNextStepB(direction);
+        if(gameSnake.getPlayerA().getId().equals(user.getId())){
+            if(gameSnake.getPlayerA().getBotId().equals(-1))//如果是人类玩家再接受操作，否则屏蔽
+                gameSnake.setNextStepA(direction);
+        }else if(gameSnake.getPlayerB().getId().equals(user.getId())){
+            if(gameSnake.getPlayerB().getBotId().equals(-1))
+                gameSnake.setNextStepB(direction);
         }
     }
 
     @OnMessage
     public void onMessage(String message, Session session) {
-        // 从Client接收消息
+        // 从Client接收消息时触发此函数
         JSONObject data = JSONObject.parseObject(message);
         String event = data.getString("event");//接收前端传来的"event"
         if("start-matching".equals(event)){

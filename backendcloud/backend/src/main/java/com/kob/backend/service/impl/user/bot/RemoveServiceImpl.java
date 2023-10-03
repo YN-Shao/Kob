@@ -29,16 +29,16 @@ public class RemoveServiceImpl implements RemoveService {
         Bot bot = botMapper.selectById(bot_id);
         Map<String,String> map = new HashMap<>();
         if(bot == null){
-            map.put("error_message","bot doesn't exist");
+            map.put("error_message","Bot doesn't exist");
             return map;
         }
         else if(bot.getUserId().equals(user.getId())){
             botMapper.deleteById(bot_id);
-            map.put("error_message","success");
+            map.put("error_message","Success");
             return map;
         }
         else{
-            map.put("error_message","you don't have permission to delete this bot");
+            map.put("error_message","You don't have permission to delete this bot");
             return map;
         }
     }

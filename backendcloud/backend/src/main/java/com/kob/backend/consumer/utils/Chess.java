@@ -3,7 +3,6 @@ package com.kob.backend.consumer.utils;
 import com.alibaba.fastjson2.JSONObject;
 import com.kob.backend.consumer.WebSocketServer;
 import com.kob.backend.pojo.Bot;
-import com.kob.backend.pojo.Record;
 import com.kob.backend.pojo.User;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -298,22 +297,6 @@ public class Chess extends Thread{
         }
         updateUserRating(playerA, ratingA);
         updateUserRating(playerB, ratingB);
-
-        Record record = new Record(
-                null,
-                playerA.getId(),
-                playerA.getSx(),
-                playerA.getSy(),
-                playerB.getId(),
-                playerB.getSx(),
-                playerB.getSy(),
-                playerA.getStepString(),
-                playerB.getStepString(),
-                getMapString(),
-                loser,
-                new Date()
-        );
-        WebSocketServer.recordMapper.insert(record);
     }
 
     private void sendResult(){  //向客户端广播

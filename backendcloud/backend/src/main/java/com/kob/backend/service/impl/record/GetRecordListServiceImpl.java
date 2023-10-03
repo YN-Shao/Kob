@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kob.backend.mapper.RecordMapper;
 import com.kob.backend.mapper.UserMapper;
-import com.kob.backend.pojo.Record;
+import com.kob.backend.pojo.snakeRecord;
 import com.kob.backend.pojo.User;
 import com.kob.backend.service.record.GetRecordListService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,16 +25,16 @@ public class GetRecordListServiceImpl implements GetRecordListService {
     private UserMapper userMapper;
     @Override
     public JSONObject getList(Integer page) {
-        IPage<Record> recordIpage = new Page<>(page,10);
-        QueryWrapper<Record> queryWrapper = new QueryWrapper<>();
+        IPage<snakeRecord> recordIpage = new Page<>(page,10);
+        QueryWrapper<snakeRecord> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("id");
-        List<Record> records = recordMapper.selectPage(recordIpage,queryWrapper).getRecords();
+        List<snakeRecord> snakeRecords = recordMapper.selectPage(recordIpage,queryWrapper).getRecords();
 
         JSONObject resp = new JSONObject();
         List<JSONObject> items = new LinkedList<>();
-        for(Record record : records){
-            User userA = userMapper.selectById(record.getAId());
-            User userB = userMapper.selectById(record.getBId());
+        for(snakeRecord snakeRecord : snakeRecords){
+            User userA = userMapper.selectById(snakeRecord.getAId());
+            User userB = userMapper.selectById(snakeRecord.getBId());
 
             JSONObject item = new JSONObject();
             item.put("a_photo",userA.getPhoto());
@@ -42,14 +42,14 @@ public class GetRecordListServiceImpl implements GetRecordListService {
             item.put("b_photo",userB.getPhoto());
             item.put("b_username",userB.getUsername());
             String result = "Draw";
-            if("A".equals(record.getLoser())){
+            if("A".equals(snakeRecord.getLoser())){
                 result = "B is Winner";
             }
-            else if("B".equals(record.getLoser())){
+            else if("B".equals(snakeRecord.getLoser())){
                 result = "A is Winner";
             }
             item.put("result", result);
-            item.put("record",record);
+            item.put("record", snakeRecord);
             items.add(item);
         }
         resp.put("records", items);
