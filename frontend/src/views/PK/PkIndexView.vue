@@ -7,8 +7,8 @@
 <script>
 
 import PlayGround from '../../components/Snake/PlayGround.vue'
-import MatchGround from '../../components/MatchGround.vue'
-import ResultBoard from '../../components/ResultBoard.vue'
+import MatchGround from '../../components/Snake/MatchGround.vue'
+import ResultBoard from '../../components/Snake/ResultBoard.vue'
 import { onMounted, onUnmounted } from 'vue'
 import { useStore } from 'vuex' // 全局变量
 

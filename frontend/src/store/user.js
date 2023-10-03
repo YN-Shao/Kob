@@ -110,7 +110,7 @@ export default ({
           });
       });
     },
-
+ 
     updateProfileInfo(context, data) {
       return new Promise((resolve, reject) => {
           $.ajax({

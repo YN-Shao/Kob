@@ -3,6 +3,10 @@
         <table class="table table-striped table-hover" style="text-align: center;">
             <thead>
                 <tr>
+                    <!-- Title Row -->
+                    <td colspan="2" style="font-size: 24px; font-weight: bold;">King of Snakes</td>
+                </tr>
+                <tr>
                     <th>Player A</th>
                     <th>Player B</th>
                     <th>Result</th>

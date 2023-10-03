@@ -91,7 +91,7 @@ export default{
         const router = useRouter();
 
         const goToPKIndex = () => {
-          router.push({ name: "PK_index" });
+          router.push({ name: "PK_Gomoku_index" });
         }
 
         const click_page = page => {
