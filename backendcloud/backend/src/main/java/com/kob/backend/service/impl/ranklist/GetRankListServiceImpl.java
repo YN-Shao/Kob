@@ -19,28 +19,21 @@ import java.util.List;
 public class GetRankListServiceImpl implements GetRankListService {
     @Autowired
     private UserMapper userMapper;
-    @Autowired
-    private RatingMapper ratingMapper;
     @Override
     public JSONObject getList(Integer page , Integer gameId) {
         IPage<User> userIpage = new Page<>(page, 10);
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        QueryWrapper<Rating> ratingQueryWrapper = new QueryWrapper<>();
+        switch (gameId) {
+            case 1:
+                queryWrapper.orderByDesc("rating");
+                break;
+            case 2:
+                queryWrapper.orderByDesc("gomoku_rating");
+                break;
+        }
 
         List<User> users = userMapper.selectPage(userIpage,queryWrapper).getRecords();
 
-        ratingQueryWrapper.eq("game_id", gameId);
-        List<Rating> ratings = ratingMapper.selectList(ratingQueryWrapper);
-
-        for (User user : users) {
-            for (Rating rating : ratings) {
-                if (user.getId().equals(rating.getUserId())) {
-                    user.setRating(rating.getScore());
-                    break;
-                }
-            }
-        }
-        users.sort(Comparator.comparing(User::getRating).reversed());
         JSONObject resp = new JSONObject();
         for(User user:users){
             user.setPassword("");

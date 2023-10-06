@@ -10,15 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 @Component
-public class MatchingPool extends Thread {
-
+public class GomokuMatchingPool extends Thread{
     private static List<Player> players = new ArrayList<>();
     private ReentrantLock lock = new ReentrantLock();
     private static RestTemplate restTemplate ;
-    private final static String startGameUrl = "http://127.0.0.1:3000/pk/start/game/";
+    private final static String startGameUrl = "http://127.0.0.1:3000/pk/start/gomoku/";
     @Autowired
     public void setRestTemplate(RestTemplate restTemplate) {
-        MatchingPool.restTemplate = restTemplate;
+        GomokuMatchingPool.restTemplate = restTemplate;
     }
     public void addPlayers(Integer userId, Integer rating ,Integer botId) {
         lock.lock();
@@ -45,9 +44,9 @@ public class MatchingPool extends Thread {
     }
 
     private void increaseWaitingTime() {
-            for (Player player : players) {
-                player.setWaitingTime(player.getWaitingTime() + 1);
-            }
+        for (Player player : players) {
+            player.setWaitingTime(player.getWaitingTime() + 1);
+        }
     }
 
     private boolean checkMatched(Player a, Player b){
@@ -56,20 +55,20 @@ public class MatchingPool extends Thread {
         return ratingDiff <= waitingTime * 10;
     }
     private void sendResult(Player a,Player b){ // 返回A，B的匹配结果
-        System.out.println("Snake sendResult" + a.toString() + b.toString());
+        System.out.println("Gomoku sendResult" + a.toString() + b.toString());
         MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
         data.add("a_id", a.getUserId().toString());
         data.add("a_bot_id", a.getBotId().toString());
         data.add("b_id", b.getUserId().toString());
         data.add("b_bot_id", b.getBotId().toString());
 
-        System.out.println("Snake Matching pool :  "+ data);
+        System.out.println("Gomoku Matching pool :  "+ data);
 
         restTemplate.postForObject(startGameUrl, data, String.class);
     }
 
     private void matchPlayers(){ //尝试匹配结果
-        System.out.println("Snake Matching players" + players.toString());
+        System.out.println("Gomoku Matching players" + players.toString());
         boolean[] used = new boolean[players.size()];
         for(int i = 0 ;i < players.size() ; i++){
             if(used[i]) continue;
@@ -114,5 +113,4 @@ public class MatchingPool extends Thread {
         }
 
     }
-
 }

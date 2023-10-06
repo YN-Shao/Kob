@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.kob.backend.consumer.utils.GameSnake;
 import com.kob.backend.consumer.utils.JwtAuthentication;
 import com.kob.backend.mapper.BotMapper;
+import com.kob.backend.mapper.RatingMapper;
 import com.kob.backend.mapper.RecordMapper;
 import com.kob.backend.mapper.UserMapper;
 import com.kob.backend.pojo.Bot;
@@ -58,7 +59,7 @@ public class WebSocketServer {
     public void onOpen(Session session, @PathParam("token") String token) throws IOException{
         // 建立连接
         this.session = session;
-        System.out.println("connect");
+        System.out.println("Snake connect");
         Integer userId = JwtAuthentication.getUserId(token); // 从token中获取userId
         this.user = userMapper.selectById(userId);
 
@@ -73,7 +74,7 @@ public class WebSocketServer {
 
     @OnClose
     public void onClose() {
-        System.out.println("close");
+        System.out.println("Snake close");
         // 关闭链接
         if( this.user != null) {
             users.remove(this.user.getId());
@@ -101,7 +102,7 @@ public class WebSocketServer {
             users.get(user2.getId()).gameSnake = gameSnake;
         }
 
-        gameSnake.start();
+        gameSnake.start();//start a new thread to run the game
 
         JSONObject respGame = new JSONObject();
         respGame.put("a_id", gameSnake.getPlayerA().getId());
@@ -131,7 +132,7 @@ public class WebSocketServer {
 
     private void startMatching(Integer botId){
         //开始匹配
-        System.out.println("start-matching");
+        System.out.println("Snake start-matching");
         MultiValueMap<String ,String> data = new LinkedMultiValueMap<>();
         data.add("user_id", this.user.getId().toString());
         data.add("rating",this.user.getRating().toString());
@@ -140,7 +141,7 @@ public class WebSocketServer {
     }
     private void stopMatching(){
         //停止匹配
-        System.out.println("stop-matching");
+        System.out.println("Snake stop-matching");
         MultiValueMap<String ,String> data = new LinkedMultiValueMap<>();
         data.add("user_id", this.user.getId().toString());
         restTemplate.postForObject(removePlayerUrl, data, String.class);

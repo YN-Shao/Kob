@@ -20,7 +20,7 @@ export default{
     },
     setup(){
         const store = useStore();
-        const socketUrl = `ws://127.0.0.1:3000/websocket/${store.state.user.token}/`;
+        const socketUrl = `ws://127.0.0.1:3000/gomokuWebsocket/${store.state.user.token}/`;
         store.commit("updateLoser", "none");
         store.commit("updateIsRecord", false);
 
@@ -47,13 +47,15 @@ export default{
                     });
                     setTimeout(() => {
                         store.commit("updateStatus","playing");
-                    }, 200);
+                    }, 1000);
                     store.commit("updateGamemap", data.game);
-                }else if(data.event === "move"){
-                    const game = store.state.pk.gameObject;
-                    const [snake0, snake1] = game.snakes;
-                    snake0.set_direction(data.a_direction);
-                    snake1.set_direction(data.b_direction);
+                }else if(data.event === "??"){
+                    
+                    //todo
+
+
+
+
                 }
                 else if (data.event === "result"){
                     const game = store.state.pk.gameObject;

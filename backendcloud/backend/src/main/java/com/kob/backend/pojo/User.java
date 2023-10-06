@@ -17,6 +17,7 @@ public class User {
     private String password;
     private String photo;
     private Integer rating;
+    private Integer gomokuRating;
 
     // getter and setter for id
     public Integer getId() {
@@ -47,6 +48,13 @@ public class User {
         this.rating = rating;
     }
 
+    public Integer getGomokuRating() {
+        return gomokuRating;
+    }
+    public void setGomokuRating(Integer gomokuRating) {
+        this.gomokuRating = gomokuRating;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -58,12 +66,13 @@ public class User {
     }
 
     // All args constructor
-    public User(Integer id, String username, String password, String photo,Integer rating) {
+    public User(Integer id, String username, String password, String photo,Integer rating, Integer gomokuRating) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.photo = photo;
         this.rating = rating;
+        this.gomokuRating = gomokuRating;
     }
 
     // No args constructor

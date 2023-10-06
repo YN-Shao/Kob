@@ -45,7 +45,7 @@
                 &nbsp;
                 <span class="record-user-username">{{ user.username }}</span>
               </td>
-              <td class="rank-col">{{ user.rating }}</td>
+              <td class="rank-col">{{ user.gomokuRating }}</td>
             </tr>
           </tbody>
         </table>
