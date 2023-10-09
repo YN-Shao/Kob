@@ -12,12 +12,16 @@ import NotfoundView from '../views/Error/NotfoundView'
 import UserbotIndexView from '../views/User/Bots/UserbotIndexView'
 import UserAccountLoginView from '../views/User/account/UserAccountLoginView'
 import UserAccountRegisterView from '../views/User/account/UserAccountRegisterView'
+
+//userprofile2
 import UserProfileView from '../views/Profile/UserProfileView'
+import UserProfileView2 from  '../views/Profile/UserProfileView2'
+
 import HomeIndexView from '../views/Home/HomeIndexView'
 import CommunityIndexView from  '../views/Community/CommunityIndexView'
 import store from'../store/index'
  
-const routes=[
+const routes = [
   {
     path: "/home/",
     name : "home",
@@ -104,7 +108,6 @@ const routes=[
   },
 
 
-
   {
     path : "/User/Bots/",
     name : "user_bot_index",
@@ -113,6 +116,9 @@ const routes=[
     },
     component:UserbotIndexView,
   },
+
+
+  //userprofile1 & 2
   {
     path : "/User/profile/",
     name : "user_profile",
@@ -121,6 +127,17 @@ const routes=[
     },
     component:UserProfileView,
   },
+  {
+    path : "/User/profile2/:userId/",
+    name : "user_profile2",
+    meta:{
+      requestAuth: true, 
+    },
+    component:UserProfileView2,
+  },
+
+
+
   {
     path : "/ranklist/",
     name : "RankList_index",

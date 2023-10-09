@@ -36,8 +36,12 @@
           <ul class="dropdown-menu">
           <router-link class="dropdown-item" :to="{name:'user_bot_index'}">My Bot</router-link>
           <li><hr class = "dropdown-divider"></li>
+
           <router-link class="dropdown-item" :to="{name:'user_profile'}">Profile</router-link>
           <li><hr class = "dropdown-divider"></li>
+          <router-link class="dropdown-item" :to="{name:'user_profile2', params: {userId: $store.state.user.id}}">Profile2</router-link>
+          <li><hr class = "dropdown-divider"></li>
+
           <li><a class="dropdown-item" href="#" @click="logout">Log out</a></li>
          </ul>
         </ul>

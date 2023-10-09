@@ -2,14 +2,18 @@
     <div class="container content-field">
         <div class="card">
             <div class="card-body"></div>
-            <slot></slot>
+            <slot>
+
+            </slot>
         </div>
 
     </div>
 </template>
 
 <script>
-
+export default {
+    name: "ContentField",
+}
 </script>
 
 <style scoped>

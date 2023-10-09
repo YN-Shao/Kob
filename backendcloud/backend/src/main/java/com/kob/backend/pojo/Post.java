@@ -2,6 +2,9 @@ package com.kob.backend.pojo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 public class Post {
     @TableId(type = IdType.AUTO)
@@ -10,16 +13,18 @@ public class Post {
     public String postContent;
 
     public Post() {
+        // 无参构造函数
     }
-
-    // Parameterized constructor
-    public Post(Integer postId, Integer userId, String postContent) {
+    public Post(Integer userId, String content) {
+        this.userId = userId;
+        this.postContent = content;
+    }
+    public Post(Integer postId, Integer userId, String content) {
         this.postId = postId;
         this.userId = userId;
-        this.postContent = postContent;
+        this.postContent = content;
     }
 
-    // Getter and Setter for postId
     public Integer getPostId() {
         return postId;
     }
@@ -28,7 +33,6 @@ public class Post {
         this.postId = postId;
     }
 
-    // Getter and Setter for userId
     public Integer getUserId() {
         return userId;
     }
@@ -37,13 +41,11 @@ public class Post {
         this.userId = userId;
     }
 
-    // Getter and Setter for postContent
     public String getPostContent() {
         return postContent;
     }
 
-    public void setPostContent(String postContent) {
-        this.postContent = postContent;
+    public void setPostContent(String content) {
+        this.postContent = content;
     }
-
 }
