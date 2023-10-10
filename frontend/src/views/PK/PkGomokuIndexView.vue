@@ -8,8 +8,8 @@
 <script>
 /* eslint-disable */
 import PlayGround from '../../components/Gomoku/PlayGround.vue'
-import MatchGround from '../../components/MatchGround.vue'
-import ResultBoard from '../../components/ResultBoard.vue'
+import MatchGround from '../../components/Gomoku/GomokuMatchGround.vue'
+import ResultBoard from '../../components/Gomoku/GomokuResultBoard.vue'
 import { onMounted, onUnmounted } from 'vue'
 import { useStore } from 'vuex'
 
@@ -41,22 +41,31 @@ export default{
 
             socket.onmessage = msg => {
                 const data = JSON.parse(msg.data);
+                const game = store.state.pk.gameObject;
                 if(data.event === "start-matching") {
                     store.commit("updateOpponent",{
                         username: data.opponent_username,
                         photo: data.opponent_photo,
                     });
+                    
                     setTimeout(() => {
                         store.commit("updateStatus","playing");
                     }, 200);
+                    // data.game.set_color(store.state.pk.color)
                     store.commit("updateGomokuBoard", data.game);
+                    
                 }else if(data.event === "move"){
-                    const game = store.state.pk.gameObject;
-                    game.board.set_next(data.a_direction);
+                    // const game = store.state.pk.gameObject;
+                    game.pieces[data.x][data.y].set_color(data.color);
                 }
                 else if (data.event === "result"){
-                    const game = store.state.pk.gameObject;
                     store.commit("updateLoser",data.loser);
+                }
+                else if (data.event === "assignColorCode"){
+                    // const game = store.state.pk.gameObject;
+                    store.commit("updateColor",data.color);
+                    store.state.pk.color = data.color;
+                    // game.set_color(data.color);
                 }
                 //console.log(data)
             }

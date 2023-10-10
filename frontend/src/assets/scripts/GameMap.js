@@ -1,6 +1,6 @@
 import { AcGameObjects } from "./AcGameObject";
-import { Snack } from "./GomokuBoard";
-import { Wall } from "./Piece";
+import { Snack } from "./Snake";
+import { Wall } from "./Wall";
 
 export class GameMap extends AcGameObjects{
     constructor(ctx, parent, store){

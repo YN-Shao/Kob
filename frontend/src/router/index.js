@@ -4,13 +4,15 @@ import GomokuIntroductionView from '../views/Introduction/GomokuIntroductionView
 import PkIndexView from '../views/PK/PkIndexView'
 import PkGomokuIndexView from '../views/PK/PkGomokuIndexView'
 import RanklistIndexView from '../views/RankList/RanklistIndexView'
+import GomokuRecordContentView from '../views/Record/GomokuRecordContentView'
+import GomokuRecordIndexView from '../views/Record/GomokuRecordIndexView'
 import RecordContentView from '../views/Record/RecordContentView'
-import NotfoundView from '../views/Error/NotfoundView'
 import RecordIndexView from '../views/Record/RecordIndexView'
+import NotfoundView from '../views/Error/NotfoundView'
 import UserbotIndexView from '../views/User/Bots/UserbotIndexView'
 import UserAccountLoginView from '../views/User/account/UserAccountLoginView'
 import UserAccountRegisterView from '../views/User/account/UserAccountRegisterView'
-import UserProfileView from '../views/User/UserProfileView'
+import UserProfileView from '../views/Profile/UserProfileView'
 import HomeIndexView from '../views/Home/HomeIndexView'
 import CommunityIndexView from  '../views/Community/CommunityIndexView'
 import store from'../store/index'
@@ -83,6 +85,26 @@ const routes=[
     },
     component: RecordContentView,
   },
+
+  {
+    path : "/GomokuRecord/",
+    name : "GomokuRecord_index",
+    meta:{
+      requestAuth: true, 
+    },
+    component: GomokuRecordIndexView,
+  },
+  {
+    path : "/GomokuRecord/:recordId/",
+    name : "GomokuRecord_content",
+    meta:{
+      requestAuth: true, 
+    },
+    component: GomokuRecordContentView,
+  },
+
+
+
   {
     path : "/User/Bots/",
     name : "user_bot_index",

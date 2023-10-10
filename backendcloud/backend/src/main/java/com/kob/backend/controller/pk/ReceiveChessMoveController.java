@@ -18,7 +18,10 @@ public class ReceiveChessMoveController {
         Integer userId = Integer.parseInt(Objects.requireNonNull(data.getFirst("user_id")));
         Integer x = Integer.parseInt(Objects.requireNonNull(data.getFirst("x")));
         Integer y = Integer.parseInt(Objects.requireNonNull(data.getFirst("y")));
-        Integer colourCode = Integer.parseInt(Objects.requireNonNull(data.getFirst("colour_code")));
+        String colourCode = String.valueOf(Objects.requireNonNull(data.getFirst("colour_code")));
+        System.out.println(x);
+        System.out.println(y);
+        System.out.println(colourCode);
         return receiveChessMoveService.receiveBotMove(userId, x, y, colourCode);
     }
 }

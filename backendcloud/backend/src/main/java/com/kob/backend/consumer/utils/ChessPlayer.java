@@ -15,7 +15,7 @@ public class ChessPlayer {
     private Integer sx;
     private Integer sy;
     private List<Integer[]> steps;
-    private Integer colourCode;
+    private String colourCode;
     // private Boolean check_tail_increasing(int step) {  //检验当前回合蛇长度是否增加
     //     if(step <= 10) {
     //         return true;
@@ -101,11 +101,11 @@ public class ChessPlayer {
         this.steps = steps;
     }
 
-    public Integer getColourCode() {
+    public String getColourCode() {
         return this.colourCode;
     }
 
-    public void setColourCode(Integer colourCode) {
+    public void setColourCode(String colourCode) {
         this.colourCode = colourCode;
     }
 

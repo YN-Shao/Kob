@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReceiveChessMoveServiceImpl implements ReceiveChessMoveService{
     @Override
-    public String receiveBotMove(Integer userId, Integer x, Integer y, Integer colourCode) {
+    public String receiveBotMove(Integer userId, Integer x, Integer y, String colourCode) {
         System.out.println("receive chess coord: " + userId + " " + x + " " + y);
 
         if(WebSocketServer.users.get(userId) != null){

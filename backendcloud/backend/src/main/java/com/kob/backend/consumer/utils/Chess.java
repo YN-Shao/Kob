@@ -17,11 +17,11 @@ import static com.kob.backend.consumer.WebSocketServer.restTemplate;
 
 public class Chess extends Thread{
     private final Integer rows, cols;
-    private final int[][] g;
-    static final private int[] dx = {-1 ,0 ,1, 0}, dy = {0, 1, 0, -1};
+    private final String[][] g;
     private final ChessPlayer playerA, playerB;
-    private Integer[] nextStep = new Integer[2];
-    private Integer nextColourCode;
+    private Integer[] nextStep = new Integer[]{-1, -1};
+    private String nextColourCode = "#ffffff";
+    private String prevColourCode = "";
     private Integer emptySpace;
     private final ReentrantLock lock = new ReentrantLock();
     private String status =  "playing"; // playing -> finished
@@ -39,7 +39,7 @@ public class Chess extends Thread{
         this.rows = rows;
         this.cols = cols;
         this.emptySpace = rows * cols;
-        this.g = new int[rows][cols];
+        this.g = new String[rows][cols];
         Integer botIdA = -1 , botIdB = -1;
         String botCodeA = "", botCodeB = "";
         if(botA != null){
@@ -52,72 +52,14 @@ public class Chess extends Thread{
         }
 
         this.playerA = new ChessPlayer(idA, botIdA, botCodeA, rows - 2 , 1, new ArrayList<>());
-
+        this.playerA.setColourCode("#000000");
         this.playerB = new ChessPlayer(idB, botIdB,botCodeB,1, cols - 2, new ArrayList<>());
+        this.playerB.setColourCode("#ffffff");
+        sendColorCode("#000000", "#ffffff");
     }
 
-    public int[][] getG() {
+    public String[][] getG() {
         return g;
-    }
-
-    // private boolean check_connectivity(int sx, int sy, int tx, int ty){
-    //     if(sx == tx && sy == ty) return true;
-    //     g[sx][sy] = 1;
-
-    //     for(int i=0; i <4 ; i++){
-    //         int x = sx + dx[i], y = sy + dy[i];
-    //         if( x >= 0 && x <this.rows && y >= 0 && y < this.cols && g[x][y] == 0) {
-    //             if(check_connectivity(x, y, tx, ty)) {
-    //                 g[sx][sy] = 0; // backtracking
-    //                 return true;
-    //             }
-    //         }
-    //     }
-    //     g[sx][sy] = 0; // backtracking
-    //     return false;
-    // }
-
-    private boolean draw(){
-        // for(int i=0 ; i<rows ; i++){
-        //     for(int j=0 ; j<cols ; j++){
-        //         g[i][j] = 0;
-        //     }
-        // }
-        // for(int r=0 ; r<this.rows ; r++){
-        //     g[r][0] = 1;
-        //     g[r][this.cols-1] = 1;
-        // }
-        // for(int c=0 ; c<this.cols ; c++){
-        //     g[0][c] = 1;
-        //     g[this.rows-1][c] = 1;
-        // }
-
-        // Random random = new Random();
-        // for(int i=0 ; i < this.inner_walls_count/2 ; i++){
-        //     for(int j=0 ; j<1000 ; j++){
-        //     int r = random.nextInt(this.rows);
-        //     int c = random.nextInt(this.cols);
-
-        //     if(g[r][c] == 1 || g[this.rows -1 -r ][this.cols -1 -c] == 1){
-        //         continue;
-        //     }
-        //     if( r == this.rows -2 && c == this.cols -2){
-        //         continue;
-        //     }
-        //     g[r][c] = g[this.rows - 1 - r ][this.cols - 1 - c ] = 1;
-        //     break;
-        //     }
-        // }
-        // return check_connectivity(this.rows -2, 1,1,this.cols -2);
-        return true;
-    }
-
-    public void createMap(){
-        // for(int i = 0 ; i<1000 ; i++){
-        //     if(draw()){
-        //         break;
-        //     }
-        // }
     }
 
     public ChessPlayer getPlayerA() {
@@ -168,14 +110,37 @@ public class Chess extends Thread{
         WebSocketServer.restTemplate.postForObject(addBotUrl, data, String.class);//right
     }
 
-    public void setNextStep(Integer x, Integer y, Integer colourCode) {
+    public void setNextStep(Integer x, Integer y, String colourCode) {
         lock.lock();
         try{
-            this.nextStep = new Integer[] {x, y};
-            this.nextColourCode = colourCode;
+            if (!colourCode.equals(nextColourCode)) {
+                this.nextStep = new Integer[] {x, y};
+                this.prevColourCode = nextColourCode;
+                this.nextColourCode = colourCode;
+            }
+            if(status.equals("playing")){
+                if (nextStep()){
+                    judge();
+                    if (!(this.nextStep[0] == -1 && this.nextStep[0] == -1)) {
+                        sendMove();
+                    }
+                    // else{
+                    //     sendResult();
+                    // }
+                }
+            }
         } finally{
             lock.unlock();
         }
+        // if (nextStep()){
+        //     judge();
+        //     if(status.equals("playing") && this.nextStep[0] != -1 && this.nextStep[0] != -1){
+        //         sendMove();
+        //     }
+        //     else{
+        //         sendResult();
+        //     }
+        // }
     }
 
     private boolean nextStep(){
@@ -191,11 +156,11 @@ public class Chess extends Thread{
                 Thread.sleep(100);
                 lock.lock();
                 try{
-                    if(this.nextColourCode == playerA.getColourCode()){
+                    if(this.nextColourCode.equals(playerA.getColourCode())){
                         playerA.getStep().add(nextStep);
                         return true;
                     }
-                    else if (this.nextColourCode == playerB.getColourCode()) {
+                    else if (this.nextColourCode.equals(playerB.getColourCode())) {
                         playerB.getStep().add(nextStep);
                         return true;
                     }
@@ -208,21 +173,36 @@ public class Chess extends Thread{
         }
         return false;
     }
-    private boolean checkWin(Integer[] coord, Integer colourCode) {
-        for (int i = -1; i < 2; i += 2) {
-            for (int j = -1; j < 2; j += 2) {
-                int k = 0;
-                while (k < 5) {
-                    coord[0] += i;
-                    coord[1] += j;
-                    if (this.g[coord[0]][coord[1]] != colourCode) {
-                        break;
+    private boolean checkWin(Integer[] coord, String colourCode) {
+        List<Integer[]> comps = new ArrayList<>();
+        comps.add(new Integer[]{0, 1});
+        comps.add(new Integer[]{1, 0});
+        comps.add(new Integer[]{1, 1});
+        comps.add(new Integer[]{-1, 1});
+        for (Integer[] comp: comps) {
+            int k = 1;
+            int left = -1;
+            int right = 1;
+            while (k < 5) {
+                if (coord[0] + comp[0] * left >= 0 && coord[1] + comp[1] * left >= 0 && coord[0] + comp[0] * left < g.length && coord[1] + comp[1] * left < g.length) {
+                    if (this.g[coord[0] + comp[0] * left][coord[1] + comp[1] * left] != null && this.g[coord[0] + comp[0] * left][coord[1] + comp[1] * left].equals(colourCode)) {
+                        k += 1;
+                        left -= 1;
+                        continue;
                     }
-                    k += 1;
                 }
-                if (k == 5) {
-                    return true;
+                if (coord[0] + comp[0] * right >= 0 && coord[1] + comp[1] * right >= 0 && coord[0] + comp[0] * right < g.length && coord[1] + comp[1] * right < g.length) {
+                    if (this.g[coord[0] + comp[0] * right][coord[1] + comp[1] * right] != null && this.g[coord[0] + comp[0] * right][coord[1] + comp[1] * right].equals(colourCode)) {
+                        k += 1;
+                        right += 1;
+                        continue;
+                    }
                 }
+                break;
+                
+            }
+            if (k == 5) {
+                return true;
             }
         }
         return false;
@@ -233,38 +213,48 @@ public class Chess extends Thread{
     // return -2 when a winner didn't exist after the current step
     // return -1 when there are no longer any empty space left on the board
     // return colourCode if there is a winner after the current step
-    private Integer add_step_if_valid(Integer[] step, int[][] map, Integer colourCode){
-        if (map[step[0]][step[1]] == 0) {
+    private String add_step_if_valid(Integer[] step, String colourCode){
+        if (this.g[step[0]][step[1]] == null) {
             this.emptySpace -= 1;
-            map[step[0]][step[1]] = colourCode;
+            this.g[step[0]][step[1]] = colourCode;
             if (checkWin(step, colourCode)) {
                 return colourCode;
             }
             if (emptySpace <= 0) {
-                return -1;
+                return "draw";
             }
-            return -2;
+            return "continue";
         }
-        return -3;
+        return "invalid";
 
     }
     private void judge(){ // 判断下一步是否合法
-        Integer result = add_step_if_valid(this.nextStep, this.g, this.nextColourCode);
-        if (result >= 0) {
-            status = "finished";
-            if (result == playerA.getColourCode()) {
-                this.loser = "B";
-            }
-            else {
-                this.loser = "A";
-            }
+        if (this.nextStep[0] > 14 || this.nextStep[1] > 14 || this.nextStep[0] < 0 || this.nextStep[1] < 0) {
+            return;
         }
-        if (result == -1) {
-            status = "finished";
-            this.loser = "all";
-        }
-        else if (result == -3) {
-            // error
+        String result = add_step_if_valid(this.nextStep, this.nextColourCode);
+        switch(result) {
+            case "draw":
+                status = "finished";
+                this.loser = "all";
+                break;
+            case "invalid":
+                nextStep[0] = -1;
+                nextStep[1] = -1;
+                this.nextColourCode = this.prevColourCode;
+                break;
+            case "continue":
+                break;
+            default:
+                status = "finished";
+                if (result.equals(playerA.getColourCode())) {
+                    this.loser = "B";   
+                }
+                else {
+                    this.loser = "A";
+                }
+                sendResult();
+                break;
         }
 
     }
@@ -312,20 +302,41 @@ public class Chess extends Thread{
         try{
             JSONObject resp =  new JSONObject();
             resp.put("event", "move");
-            resp.put("step", nextStep);
-            resp.put("colourCode", nextColourCode);
+            resp.put("x", nextStep[0]);
+            resp.put("y", nextStep[1]);
+            resp.put("color", nextColourCode);
             senAllMessage(resp.toJSONString());
-            nextStep = null;
+            nextStep = new Integer[] {-1, -1};
         }finally{
             lock.unlock();
         }
     }
 
     private void senAllMessage(String message){
+        System.out.println(message);
         if( WebSocketServer.users.get(playerA.getId()) != null)
             WebSocketServer.users.get(playerA.getId()).sendMessage(message);
         if( WebSocketServer.users.get(playerB.getId())!= null)
             WebSocketServer.users.get(playerB.getId()).sendMessage(message);
+
+    }
+
+    private void sendColorCode(String AColor, String BColor){
+        lock.lock();
+        try{
+            JSONObject resp =  new JSONObject();
+            resp.put("event", "assignColorCode");
+            resp.put("color", AColor);
+            if( WebSocketServer.users.get(playerA.getId()) != null)
+                WebSocketServer.users.get(playerA.getId()).sendMessage(resp.toJSONString());
+            resp =  new JSONObject();
+            resp.put("event", "assignColorCode");
+            resp.put("color", BColor);
+            if( WebSocketServer.users.get(playerB.getId())!= null)
+                WebSocketServer.users.get(playerB.getId()).sendMessage(resp.toJSONString());
+        }finally{
+            lock.unlock();
+        }
 
     }
 
@@ -334,13 +345,16 @@ public class Chess extends Thread{
     public void run(){
         for(int i = 0 ; i<1000 ;  i++ ){
             if (nextStep()){
+                System.out.println("running");
                 judge();
                 if(status.equals("playing")){
+                    if (this.nextStep[0] == -1 && this.nextStep[0] == -1) {
+                        break;
+                    }
                     sendMove();
                 }
                 else{
-                    sendResult();
-                    break;
+                    // sendResult();
                 }
             }
             // else{

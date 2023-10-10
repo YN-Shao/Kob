@@ -20,13 +20,16 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
 
 @Component
 @ServerEndpoint("/websocket/{token}")  // 注意不要以'/'结尾
 public class WebSocketServer {
     private Session session = null; //每个链接用session维护，对应一个用户
     private User user;
-    final public static ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();//线程安全的，用来存储所有的链接,对所有实例可见
+
+    //为了可以根据用户ID找到对应的链接，才可以给Client发请求，ConcurrentHashMap是线程安全的，用来存储所有的链接,对所有实例可见
+    final public static ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();
     public static UserMapper userMapper;
     public Chess chess = null;
     public GameSnake gameSnake = null;
@@ -134,8 +137,8 @@ public class WebSocketServer {
         Bot botA = botMapper.selectById(aBotId), botB = botMapper.selectById(bBotId);
 
         Chess chess = new Chess(
-                19,
-                19,
+                15,
+                15,
                 user1.getId(),
                 botA,
                 user2.getId(),
@@ -204,6 +207,13 @@ public class WebSocketServer {
         }
     }
 
+    private void moveGomoku(int x, int y, String color){
+        if(chess.getPlayerA().getId().equals(user.getId()) || chess.getPlayerB().getId().equals(user.getId())){
+            if(chess.getPlayerA().getBotId().equals(-1))//如果是人类玩家再接受操作，否则屏蔽
+                chess.setNextStep(x, y, color);
+        }
+    }
+
     @OnMessage
     public void onMessage(String message, Session session) {
         // 从Client接收消息时触发此函数
@@ -218,6 +228,10 @@ public class WebSocketServer {
         }
         else if("move".equals(event)){
             move(data.getInteger("direction"));
+        }
+        else if("moveGomoku".equals(event)){
+            System.out.println(data);
+            moveGomoku(data.getInteger("x"), data.getInteger("y"), data.getString("color"));
         }
     }
 

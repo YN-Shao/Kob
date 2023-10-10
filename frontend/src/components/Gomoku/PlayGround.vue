@@ -1,7 +1,7 @@
 
 <template>
     <div class = "playground">
-   <GameMap />
+   <GomokuBoard />
     </div>
  
 </template>

@@ -5,7 +5,7 @@
     <div class="left-section">
       <!-- 上面是一张图片 -->
       <div class="image-container">
-        <img src="src/assets/image/gomoku.jpg" >
+        <img :src="require('@/assets/image/GomokuBack.jpeg')" >
       </div>
       <!-- 下面是一个Play的button -->
       <div class="button-container">
@@ -91,7 +91,7 @@ export default{
         const router = useRouter();
 
         const goToPKIndex = () => {
-          router.push({ name: "PK_index" });
+          router.push({ name: "PK_Gomoku_index" });
         }
 
         const click_page = page => {

@@ -7,11 +7,23 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <router-link :class="route_name == 'PK_index'? 'nav-link active' : 'nav-link'" :to="{name:'PK_index'}">Fight</router-link>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Fight
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <router-link class="dropdown-item" :to="{name:'PK_index'}">Snake</router-link>
+            <router-link class="dropdown-item" :to="{name:'PK_Gomoku_index'}">Gomoku</router-link>
+          </div>
         </li>
-        <li class="nav-item">
-          <router-link :class="route_name == 'record_index'? 'nav-link active' : 'nav-link'" :to="{name:'record_index'}">List</router-link>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="recordDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Record
+          </a>
+          <div class="dropdown-menu" aria-labelledby="recordDropdown">
+            <router-link class="dropdown-item" :to="{name:'record_index'}">Record of Snake</router-link>
+            <router-link class="dropdown-item" :to="{name:'GomokuRecord_index'}">Record of Gomoku</router-link>
+          </div>
         </li>
         <li class="nav-item">
           <router-link :class="route_name == 'RankList_index'? 'nav-link active' : 'nav-link'" :to="{name:'community_index'}">Community</router-link>

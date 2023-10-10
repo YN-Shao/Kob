@@ -1,9 +1,10 @@
 <template>
-  <div ref="parent" class = "gamemap">
-      <canvas ref = "canvas" tabindex="0"></canvas>
+  <div ref="parent" class = "gomokuboard">
+      <canvas 
+      ref = "canvas" tabindex="0"></canvas>
   </div>
 </template>
-
+<!-- style="width:450px;height:450px;" width="450" height="450"  -->
 <script>
 import { GomokuBoard } from '@/assets/scripts/GomokuBoard';
 import { ref ,onMounted} from 'vue';
@@ -31,7 +32,7 @@ export default {
 </script>
 
 <style scoped>
-div.gamemap{
+div.gomokuboard{
   width:100%;
   height:100%;
   display:flex;

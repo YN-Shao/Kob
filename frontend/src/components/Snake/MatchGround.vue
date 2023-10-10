@@ -27,13 +27,32 @@
                     {{ $store.state.pk.opponent_username }}
                 </div>
             </div> 
-            <div class = "col-12" style ="text-align: center; padding-top: 12vh;">
-                <button @click="click_match_btn" type="button" class="btn btn-light btn-lg">{{match_btn_info}}</button>
+        </div>
+        <div class="row">    
+            <div class= "col-4">
+                <div class="left-snake-gif" >
+                    <img :src="require('@/assets/image/snake.gif')" >
+                </div>
             </div>
+
+            <div class= "col-4">
+                <div class = "start-matching" style ="text-align: center; padding-top: 12vh;">
+                <button @click="click_match_btn" type="button" class="btn btn-light btn-lg">{{match_btn_info}}</button>
+                </div>
+            </div>
+
+            <div class= "col-4">
+                <div class="right-snake-gif" >
+                    <img :src="require('@/assets/image/snake.gif')" >
+                </div>
+            </div>
+
         </div>
     </div>
  
 </template>
+
+
 
 <script>
 import { ref } from 'vue'
@@ -50,7 +69,7 @@ export default{
         const click_match_btn = () => {
             if (store.state.pk.socket !== null) {
                 if(match_btn_info.value === "Start Matching"){
-                    match_btn_info.value = "Cancell";
+                    match_btn_info.value = "Cancel";
                     store.state.pk.socket.send(JSON.stringify({
                         event: "start-matching",
                         bot_id: select_bot.value,
@@ -79,6 +98,7 @@ export default{
                 })
             }
 
+        
         refresh_bots();//从云端动态获取bots
 
         return {
@@ -123,5 +143,18 @@ div.user-select-bot > select {
     width: 73%;
     margin: 0 auto;
 }
+ .right-snake-gif img {
+    width: 20vh;
+    height: 20vh;
+    object-fit: cover;
+}
+.left-snake-gif img {
+    width: 30vh;
+    height: 20vh;
+    object-fit: cover;
+    transform: scaleX(-1); 
+    padding-right: 10vh;
+}
+
 </style>
 

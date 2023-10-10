@@ -23,7 +23,6 @@ import ContentField from '../../../components/ContentField.vue'
 import { useStore } from 'vuex'
 import { ref } from 'vue' 
 import router from '../../../router/index.js'
-
 export default{
     components:{
         ContentField
@@ -49,7 +48,6 @@ export default{
         } else{
             store.commit("updatePullingInfo", false);
         }
-
         const login = () =>{
             store.dispatch("login",{
                 username: username.value,
@@ -83,5 +81,4 @@ button {
 div.error-message {
     color:red;
 }
-
 </style>
