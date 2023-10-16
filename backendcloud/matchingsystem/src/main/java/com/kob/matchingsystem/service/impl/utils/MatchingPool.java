@@ -8,6 +8,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.locks.ReentrantLock;
 @Component
 public class MatchingPool extends Thread {
@@ -15,15 +16,17 @@ public class MatchingPool extends Thread {
     private static List<Player> players = new ArrayList<>();
     private ReentrantLock lock = new ReentrantLock();
     private static RestTemplate restTemplate ;
-    private final static String startGameUrl = "http://127.0.0.1:3000/pk/start/chess/";
+    private final static String startChessUrl = "http://127.0.0.1:3000/pk/start/chess/";
+    private final static String startGameUrl = "http://127.0.0.1:3000/pk/start/game/";
+
     @Autowired
     public void setRestTemplate(RestTemplate restTemplate) {
         MatchingPool.restTemplate = restTemplate;
     }
-    public void addPlayers(Integer userId, Integer rating ,Integer botId) {
+    public void addPlayers(Integer userId, Integer rating ,Integer botId ,Integer gameId) {
         lock.lock();
         try {
-            players.add(new Player(userId, rating, botId, 0));
+            players.add(new Player(userId, rating, botId, gameId,0));
         } finally {
             lock.unlock();
         }
@@ -53,7 +56,7 @@ public class MatchingPool extends Thread {
     private boolean checkMatched(Player a, Player b){
         int ratingDiff = Math.abs(a.getRating() - b.getRating());
         int waitingTime = Math.min(a.getWaitingTime(), b.getWaitingTime());
-        return ratingDiff <= waitingTime * 10;
+        return Objects.equals(a.getGameId(), b.getGameId()) && ratingDiff <= waitingTime * 10;
     }
     private void sendResult(Player a,Player b){ // 返回A，B的匹配结果
         System.out.println("sendResult" + a.toString() + b.toString());
@@ -65,7 +68,11 @@ public class MatchingPool extends Thread {
 
         System.out.println("Matching pool :  "+ data);
 
-        restTemplate.postForObject(startGameUrl, data, String.class);
+        if (a.getGameId() == 1 || b.getGameId() == 1) {
+            restTemplate.postForObject(startGameUrl, data, String.class);
+        } else if (a.getGameId() == 2 || b.getGameId() == 2) {
+            restTemplate.postForObject(startChessUrl, data, String.class);
+        }
     }
 
     private void matchPlayers(){ //尝试匹配结果

@@ -144,7 +144,7 @@ public class WebSocketServer {
                 user2.getId(),
                 botB
         );
-        chess.createMap();
+        //chess.createMap();
         if(users.get(user1.getId()) != null){
             users.get(user1.getId()).chess = chess;
         }
@@ -180,13 +180,14 @@ public class WebSocketServer {
             users.get(user2.getId()).sendMessage(respB.toJSONString());
     }
 
-    private void startMatching(Integer botId){
+    private void startMatching(Integer botId, Integer gameId){
         //开始匹配
         System.out.println("start-matching");
         MultiValueMap<String ,String> data = new LinkedMultiValueMap<>();
         data.add("user_id", this.user.getId().toString());
         data.add("rating",this.user.getRating().toString());
         data.add("bot_id", botId.toString());
+        data.add("game_id", gameId.toString());
         restTemplate.postForObject(addPlayerUrl, data, String.class);
     }
     private void stopMatching(){
@@ -219,9 +220,10 @@ public class WebSocketServer {
         // 从Client接收消息时触发此函数
         JSONObject data = JSONObject.parseObject(message);
         String event = data.getString("event");//接收前端传来的"event"
+        System.out.println("game_id " + data.getInteger("game_id"));
         if("start-matching".equals(event)){
             //开始匹配
-            startMatching(data.getInteger("bot_id"));
+            startMatching(data.getInteger("bot_id"), data.getInteger("game_id"));
         }else if ("stop-matching".equals(event)){
             //停止匹配
             stopMatching();

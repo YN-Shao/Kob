@@ -73,6 +73,7 @@ export default{
                     store.state.pk.socket.send(JSON.stringify({
                         event: "start-matching",
                         bot_id: select_bot.value,
+                        game_id: 1,
                     }));  //向后端发这个JSON
                 } else {
                     match_btn_info.value = "Start Matching";

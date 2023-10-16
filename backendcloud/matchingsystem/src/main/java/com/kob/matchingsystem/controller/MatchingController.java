@@ -18,7 +18,8 @@ public class MatchingController{
         Integer userId = Integer.parseInt(Objects.requireNonNull(data.getFirst("user_id")));
         Integer rating = Integer.parseInt(Objects.requireNonNull(data.getFirst("rating")));
         Integer botId = Integer.parseInt(Objects.requireNonNull(data.getFirst("bot_id")));
-        return matchingService.addPlayer(userId, rating,botId);
+        Integer gameId = Integer.parseInt(Objects.requireNonNull(data.getFirst("game_id")));
+        return matchingService.addPlayer( userId, rating,botId , gameId );
 
     }
 

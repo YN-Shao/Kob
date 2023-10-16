@@ -7,14 +7,16 @@ public class Player {
     private Integer userId;
     private Integer rating;
     private Integer botId;
+    private Integer gameId;
     private Integer waitingTime;
 
         public Player() {}
 
-        public Player(Integer userId, Integer rating, Integer botId,Integer waitingTime) {
+        public Player(Integer userId, Integer rating, Integer botId,Integer gameId,Integer waitingTime) {
             this.userId = userId;
             this.rating = rating;
             this.botId = botId;
+            this.gameId = gameId;
             this.waitingTime = waitingTime;
         }
 
@@ -36,6 +38,9 @@ public class Player {
         public Integer getBotId() {
             return botId;
         }
+        public Integer getGameId() {
+        return gameId;
+    }
 
         public Integer getWaitingTime() {
             return waitingTime;
@@ -50,7 +55,7 @@ public class Player {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             Player player = (Player) o;
-            return Objects.equals(userId, player.userId) && Objects.equals(rating, player.rating) && Objects.equals(waitingTime, player.waitingTime);
+            return Objects.equals(userId, player.userId) && Objects.equals(rating, player.rating) && Objects.equals(waitingTime, player.waitingTime) && Objects.equals(gameId, player.gameId);
         }
 
         @Override
