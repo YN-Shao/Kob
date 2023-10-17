@@ -13,6 +13,7 @@ export default {
     b_sy: 0,
     gameObject: null,
     loser:"none",
+    color:"",
   },
   getters: {
   },
@@ -35,6 +36,10 @@ export default {
       state.b_id = game.b_id;
       state.b_sx = game.b_sx;
       state.b_sy = game.b_sy;
+    },
+    updateGomokuBoard(state, game) {
+      state.a_id = game.a_id;
+      state.b_id = game.b_id;
     },
     updateGameObject(state, gameObject){
       state.gameObject = gameObject;

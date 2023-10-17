@@ -40,8 +40,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/user/account/token/", "/user/account/register/","/user/account/info/", "/community/","/getCommunityInfo/").permitAll()
-                .antMatchers("/pk/start/game/","/pk/receive/bot/move/","/record/getlist/").hasIpAddress("127.0.0.1")
+                .antMatchers("/pk/start/game/","/pk/receive/bot/move/", "/pk/start/chess/","/pk/receive/bot/chess/move/", "/record/getlist/").hasIpAddress("127.0.0.1")
+                .antMatchers("/community/","/getCommunityInfo/").permitAll()
+                .antMatchers("/user/account/token/", "/user/account/register/","/user/account/info/").permitAll()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyRequest().authenticated();
 
@@ -51,6 +52,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/websocket/**");
-        web.ignoring().antMatchers("/gomokuWebsocket/**");
     }
 }

@@ -91,7 +91,7 @@ const routes = [
   },
 
   {
-    path : "/Gomokurecord/",
+    path : "/GomokuRecord/",
     name : "GomokuRecord_index",
     meta:{
       requestAuth: true, 

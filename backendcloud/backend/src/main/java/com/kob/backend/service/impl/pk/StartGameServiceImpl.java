@@ -10,7 +10,16 @@ public class StartGameServiceImpl implements StartGameService {
     public String startGame(Integer aId, Integer aBotId,Integer bId, Integer bBotId) {
         System.out.println("startGame" + aId + " " +aBotId + "B: "+ bId + " " + bBotId);
         WebSocketServer.startGame(aId,aBotId ,bId, bBotId);
+        System.out.println("start game success");
         return "start game success";
+    }
+
+    @Override
+    public String startChess(Integer aId, Integer aBotId,Integer bId, Integer bBotId) {
+        System.out.println("startGame" + aId + " " +aBotId + "B: "+ bId + " " + bBotId);
+        WebSocketServer.startChess(aId,aBotId ,bId, bBotId);
+        System.out.println("start chess success");
+        return "start chess success";
     }
 
 }
