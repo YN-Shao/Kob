@@ -25,6 +25,9 @@ export default {
 }
 
 </script>
+
+
+
 <style scoped>
 img {
     border-radius: 50%;
@@ -32,7 +35,11 @@ img {
 
 .username {
     font-weight: bold;
+    display: flex;
+    align-items: center;     /* 垂直居中 */
+    height: 100%;            /* 假设这是一个块级元素，需要一个明确的高度 */
 }
+
 
 
 .img-field {
