@@ -39,4 +39,6 @@ public class UserProfileController {
     public List<snakeRecord> getRecords() {
         return userProfileService.getRecords();
     }
+
+
 }
