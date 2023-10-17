@@ -21,7 +21,7 @@ public class MatchingController{
         Integer botId = Integer.parseInt(Objects.requireNonNull(data.getFirst("bot_id")));
         Integer gameId = Integer.parseInt(Objects.requireNonNull(data.getFirst("game_id")));
         return matchingService.addPlayer( userId, rating,botId , gameId );
-        
+
     }
 
     @PostMapping("/player/remove/")
