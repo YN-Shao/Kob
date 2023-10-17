@@ -1,3 +1,4 @@
+
 <template>
     <PlayGround v-if="$store.state.pk.status=== 'playing'" />
     <MatchGround v-if="$store.state.pk.status=== 'matching'" />
@@ -5,8 +6,8 @@
 </template>
 
 <script>
-
-import PlayGround from '../../components/Snake/PlayGround.vue'
+/* eslint-disable */
+import PlayGround from '../../components/Gomoku/PlayGround.vue'
 import MatchGround from '../../components/Gomoku/GomokuMatchGround.vue'
 import ResultBoard from '../../components/Gomoku/GomokuResultBoard.vue'
 import { onMounted, onUnmounted } from 'vue'
@@ -40,34 +41,31 @@ export default{
 
             socket.onmessage = msg => {
                 const data = JSON.parse(msg.data);
+                const game = store.state.pk.gameObject;
                 if(data.event === "start-matching") {
                     store.commit("updateOpponent",{
                         username: data.opponent_username,
                         photo: data.opponent_photo,
                     });
+                    
                     setTimeout(() => {
                         store.commit("updateStatus","playing");
-                    }, 1000);
-                    store.commit("updateGamemap", data.game);
-                }else if(data.event === "??"){
+                    }, 200);
+                    // data.game.set_color(store.state.pk.color)
+                    store.commit("updateGomokuBoard", data.game);
                     
-                    //todo
-
-
-
-
+                }else if(data.event === "move"){
+                    // const game = store.state.pk.gameObject;
+                    game.pieces[data.x][data.y].set_color(data.color);
                 }
                 else if (data.event === "result"){
-                    const game = store.state.pk.gameObject;
-                    const [snake0, snake1] = game.snakes;
-
-                    if(data.loser === "all" || data.loser ==="A"){
-                        snake0.status = "die";
-                    }
-                    if(data.loser === "all" || data.loser ==="B" ){
-                        snake1.status = "die";
-                    }
                     store.commit("updateLoser",data.loser);
+                }
+                else if (data.event === "assignColorCode"){
+                    // const game = store.state.pk.gameObject;
+                    store.commit("updateColor",data.color);
+                    store.state.pk.color = data.color;
+                    // game.set_color(data.color);
                 }
                 //console.log(data)
             }

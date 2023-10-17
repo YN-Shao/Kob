@@ -5,7 +5,7 @@
     <div class="left-section">
       <!-- 上面是一张图片 -->
       <div class="image-container">
-        <img src="src/assets/image/snake.jpg" >
+        <img :src="require('@/assets/image/GomokuBack.jpeg')" >
       </div>
       <!-- 下面是一个Play的button -->
       <div class="button-container">

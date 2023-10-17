@@ -74,6 +74,7 @@ export default{
                         event: "start-matching",
                         game_id: 1,
                         bot_id: select_bot.value,
+                        game_id: 1,
                     }));  //向后端发这个JSON
                 } else {
                     match_btn_info.value = "Start Matching";
