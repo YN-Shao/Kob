@@ -59,14 +59,14 @@ public class MatchingPool extends Thread {
         return Objects.equals(a.getGameId(), b.getGameId()) && ratingDiff <= waitingTime * 10;
     }
     private void sendResult(Player a,Player b){ // 返回A，B的匹配结果
-        System.out.println("Snake sendResult" + a.toString() + b.toString());
+        System.out.println("SendResult" + a.toString() + b.toString());
         MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
         data.add("a_id", a.getUserId().toString());
         data.add("a_bot_id", a.getBotId().toString());
         data.add("b_id", b.getUserId().toString());
         data.add("b_bot_id", b.getBotId().toString());
 
-        System.out.println("Snake Matching pool :  "+ data);
+        System.out.println("Matching pool :  "+ data);
 
         if (a.getGameId() == 1 || b.getGameId() == 1) {
             restTemplate.postForObject(startGameUrl, data, String.class);
@@ -76,7 +76,7 @@ public class MatchingPool extends Thread {
     }
 
     private void matchPlayers(){ //尝试匹配结果
-        System.out.println("Snake Matching players" + players.toString());
+        System.out.println("Matching players" + players.toString());
         boolean[] used = new boolean[players.size()];
         for(int i = 0 ;i < players.size() ; i++){
             if(used[i]) continue;

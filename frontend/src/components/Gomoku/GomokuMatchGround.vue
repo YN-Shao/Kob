@@ -60,9 +60,9 @@ export default{
             if (store.state.pk.socket !== null) {
                 if(match_btn_info.value === "Start Matching"){
                     match_btn_info.value = "Cancel";
+                    console.log(select_bot.value , 2);
                     store.state.pk.socket.send(JSON.stringify({
                         event: "start-matching",
-                        game_id: 2,
                         bot_id: select_bot.value,
                         game_id : 2,
                     }));  //向后端发这个JSON

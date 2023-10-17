@@ -48,7 +48,7 @@ export default{
                     });
                     setTimeout(() => {
                         store.commit("updateStatus","playing");
-                    }, 1000);
+                    }, 200);
                     store.commit("updateGamemap", data.game);
                 }else if(data.event === "move"){
                     const game = store.state.pk.gameObject;
