@@ -59,7 +59,7 @@ public class GameSnake extends Thread{
         return g;
     }
 
-    private boolean check_connectivity(int sx, int sy, int tx, int ty){
+    boolean check_connectivity(int sx, int sy, int tx, int ty){
         if(sx == tx && sy == ty) return true;
         g[sx][sy] = 1;
 
@@ -76,7 +76,7 @@ public class GameSnake extends Thread{
         return false;
     }
 
-    private boolean draw(){
+    boolean draw(){
         for(int i=0 ; i<rows ; i++){
             for(int j=0 ; j<cols ; j++){
                 g[i][j] = 0;
