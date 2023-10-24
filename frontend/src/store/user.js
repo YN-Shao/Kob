@@ -122,7 +122,7 @@ export default ({
               },
               data: JSON.stringify(data),
               success(resp) {
-                  if (resp.message === "User information updated successfully") {
+                  if (resp.success) { // 检查 resp.success 而不是 resp.message
                       resolve(resp);
                   } else {
                       reject(resp);

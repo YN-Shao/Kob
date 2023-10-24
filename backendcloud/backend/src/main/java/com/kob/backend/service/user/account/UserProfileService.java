@@ -8,7 +8,6 @@ import java.util.Map;
 
 public interface UserProfileService {
     Map<String, String> getInfo();
-    Map<String, String> updateInfo(Map<String, String> data);
-    List<Bot> getBots();
-    List<snakeRecord> getRecords();
+    Map<String, Object> updateInfo(Map<String, String> data);
+
 }

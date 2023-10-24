@@ -1,28 +1,30 @@
 <template>
   <div class="profile-container">
-
-    <!-- Left Side: Avatar and Username -->
-    <div class="profile-left">
-      <!-- When user clicks on the avatar, AvatarSelector modal will be triggered -->
+    <div class="profile-box">
+      <!-- Avatar -->
       <img class="user-avatar" :src="photo" alt="User Avatar" @click="showModal = true">
+
+      <!-- Username and Update -->
       <h2 class="user-name">{{ username }}</h2>
-    </div>
-
-    <!-- Right Side: Buttons and Inputs -->
-    <div class="profile-right">
-      <div>
-        <label>Update Username:</label>
-        <input v-model="username" />
+      <div class="input-group">
+        <input v-model="username" placeholder="New Username"/>
+        <button @click="updateUsername">Update Username</button>
       </div>
-      <button @click="updateUserDetails">Update Info</button>
+
+      <!-- Password Update -->
+      <div class="input-group">
+        <input type="password" v-model="oldPassword" placeholder="Old Password"/>
+      </div>
+      <div class="input-group">
+        <input type="password" v-model="password" placeholder="New Password"/>
+        <button @click="updatePassword">Update Password</button>
+      </div>
+
+      <!-- Avatar Selector Modal -->
+      <AvatarSelector :showModal="showModal" @avatarSelected="updatePhotoURL" @closeModal="closeAvatarSelector" />
     </div>
-
-    <!-- Avatar Selector Modal -->
-    <AvatarSelector :showModal="showModal" @avatarSelected="updatePhotoURL" @closeModal="closeAvatarSelector" />
-
   </div>
 </template>
-
 
 <script>
 import { mapActions } from 'vuex';
@@ -35,6 +37,8 @@ export default {
   data() {
     return {
       username: '',
+      oldPassword: '',
+      password: '',
       photo: '',
       errorMessage: '',
       showModal: false
@@ -43,19 +47,51 @@ export default {
   methods: {
     ...mapActions(['getProfileInfo', 'updateProfileInfo', 'updateAvatarMethod']),
 
-    async updateUserDetails() {
+    async updateUsername() {
       try {
         const data = {
-          username: this.username,
-          photo: this.photo
+          username: this.username
         };
-        await this.updateProfileInfo(data);
-        alert('Information updated successfully!');
+        const response = await this.updateProfileInfo(data);
+        if (response.success) {
+          alert(response.message);
+        } else {
+          alert('Error updating username: ' + response.message);
+        }
       } catch (error) {
-        this.errorMessage = 'An error occurred while updating information.';
+        this.errorMessage = 'An error occurred while updating username.';
         alert(this.errorMessage);
       }
     },
+
+    async updatePassword() {
+      console.log("Starting updatePassword method");  // 新添加的日志语句
+
+      if (this.oldPassword === this.password) {
+        alert('New password cannot be the same as the old password.');
+        return;
+      }
+
+      try {
+        const data = {
+          oldPassword: this.oldPassword,
+          newPassword: this.password
+        };
+        console.log("Sending request with data:", data);  // 移动到这里
+        const response = await this.updateProfileInfo(data);
+        console.log("Received response:", response);
+        if (response.success) {
+          alert('Successfully update the password!');
+        } else {
+          alert('Error updating password: ' + response.message);
+        }
+      } catch (error) {
+        console.error("Error during updatePassword:", error);  // 新添加的日志语句
+        this.errorMessage = error.message || 'An error occurred while updating password.';
+        alert(this.errorMessage);
+      }
+    },
+
 
     async fetchUserInfo() {
       try {
@@ -67,23 +103,7 @@ export default {
       }
     },
 
-    async updateAvatar() {
-      try {
-        await this.updateAvatarMethod(this.photo);
-        alert('Avatar updated successfully!');
-        this.showModal = false;
-      } catch (error) {
-        this.errorMessage = 'An error occurred while updating avatar.';
-        alert(this.errorMessage);
-      }
-    },
-
     closeAvatarSelector() {
-      this.showModal = false;
-    },
-
-    updatePhotoURL(newPhotoURL) {
-      this.photo = newPhotoURL;
       this.showModal = false;
     }
   },
@@ -99,39 +119,41 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-image: url('~@/assets/image/background.jpg'); /* Added image background */
+  background-size: cover; /* To make sure the image covers the whole container */
+  background-repeat: no-repeat; /* To prevent image repetition */
 }
 
-.profile-left {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.profile-box {
+  background-color: white;
   padding: 20px;
-  border-right: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 300px;
 }
 
 .user-avatar {
-  width: 200px; /* Increased size */
-  height: 200px; /* Increased size */
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   object-fit: cover;
   cursor: pointer;
+  margin-bottom: 15px;
 }
 
 .user-name {
-  margin-top: 20px;
-  font-size: 24px;
+  font-size: 20px;
+  margin-bottom: 10px;
 }
 
-.profile-right {
-  flex: 1;
+.input-group {
+  margin: 10px 0;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
+  justify-content: space-between;
 }
 
 button {
-  margin: 10px 0;
+  margin-left: 10px;
 }
 </style>
