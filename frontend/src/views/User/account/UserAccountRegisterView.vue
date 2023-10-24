@@ -42,7 +42,6 @@ export default{
         let password = ref("");
         let confirmedPassword = ref("");
         let error_message = ref("");
-
         const register = () =>{
             $.ajax({
                 url:"http://127.0.0.1:3000/user/account/register/",
@@ -67,6 +66,7 @@ export default{
         }
         return {
             username,
+            email,
             password,
             confirmedPassword,
             error_message,
