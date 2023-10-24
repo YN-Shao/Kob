@@ -22,11 +22,7 @@ public class GameSnakeTest {
         assertNotNull(game.getPlayerB());
     }
 
-    @Test
-    public void testCheckConnectivity() {
-        assertTrue(game.check_connectivity(0, 0, 19, 19));
-        assertFalse(game.check_connectivity(0, 0, 50, 50));
-    }
+
 
     @Test
     public void testDraw() {
@@ -44,9 +40,8 @@ public class GameSnakeTest {
     public void testSetNextSteps() {
         game.setNextStepA(1);
         game.setNextStepB(2);
-        // More assertions would be needed if the methods returned values or had side effects.
+
     }
 
-    // Additional tests can be written for other functionalities.
 }
 

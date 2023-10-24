@@ -37,10 +37,14 @@ public class GetRecordListServiceImpl implements GetRecordListService {
             User userB = userMapper.selectById(snakeRecord.getBId());
 
             JSONObject item = new JSONObject();
-            item.put("a_photo",userA.getPhoto());
-            item.put("a_username",userA.getUsername());
-            item.put("b_photo",userB.getPhoto());
-            item.put("b_username",userB.getUsername());
+            String aPhoto = (userA != null) ? userA.getPhoto() : null;
+            String aUsername = (userA != null) ? userA.getUsername() : null;
+            item.put("a_photo", aPhoto);
+            item.put("a_username", aUsername);
+            String bPhoto = (userB != null) ? userB.getPhoto() : null;
+            String bUsername = (userB != null) ? userB.getUsername() : null;
+            item.put("b_photo", bPhoto);
+            item.put("b_username", bUsername);
             String result = "Draw";
             if("A".equals(snakeRecord.getLoser())){
                 result = "B is Winner";
