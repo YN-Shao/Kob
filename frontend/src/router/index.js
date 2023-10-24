@@ -14,12 +14,11 @@ import UserAccountLoginView from '../views/User/account/UserAccountLoginView'
 import UserAccountRegisterView from '../views/User/account/UserAccountRegisterView'
 
 //userprofile2
-import UserProfileView from '../views/Profile/UserProfileView'
 import UserProfileView2 from  '../views/Profile/UserProfileView2'
-
 import HomeIndexView from '../views/Home/HomeIndexView'
 import CommunityIndexView from  '../views/Community/CommunityIndexView'
 import store from'../store/index'
+import UserInformationChange from "../views/Profile/UserInformationChange";
  
 const routes = [
   {
@@ -120,12 +119,12 @@ const routes = [
 
   //userprofile1 & 2
   {
-    path : "/User/profile/",
-    name : "user_profile",
+    path : "/User/changeInfo/",
+    name : "user_profile_change",
     meta:{
       requestAuth: true, 
     },
-    component:UserProfileView,
+    component:UserInformationChange,
   },
   {
     path : "/User/profile2/:userId/",
