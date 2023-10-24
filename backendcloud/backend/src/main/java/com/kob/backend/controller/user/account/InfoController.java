@@ -1,3 +1,5 @@
+package com.kob.backend.controller.user.account;
+
 import com.kob.backend.service.user.account.InfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

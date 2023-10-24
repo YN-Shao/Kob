@@ -23,7 +23,15 @@
       </div>
       <div class="card-body">
         <h5 class="card-title">Gomoku Game</h5>
-        <p class="card-text"></p>
+        <p class="card-text">
+          <strong>Become the best Gomoku player!</strong> 
+          <br><strong style="color: green;">Game Rules:</strong> Who ever has 5 consecutive pieces of the same colour wins.
+          <br><strong style="color: blue;">Manual Play:</strong> Click on the Gomoku board to land a piece.
+          <br><strong style="color: red;">Bot Play:</strong> Implement <span style="font-family: 'Courier New', monospace;">BotInterface</span>, which includes <span style="font-family: 'Courier New', monospace;">Integer nextMove(String input)</span>function. Input contains all the previously valid step and your colour.
+          <br><span style="font-family: 'Courier New', monospace;">Input : "{[x,y,colour], [x,y,colour]},colour"</span>";
+
+          <br><strong style="color: purple;">Return Values:</strong> Return the next step in the format "x,y,colour".
+        </p>
       </div>
     </div>
   </div>

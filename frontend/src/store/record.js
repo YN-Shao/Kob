@@ -4,6 +4,7 @@ export default {
       a_steps: "",
       b_steps: "",
       record_loser: "",
+      gomoku_steps: "",
   },
   getters: {
   },
@@ -14,6 +15,9 @@ export default {
     updateSteps(state, data){
       state.a_steps = data.a_steps;
       state.b_steps = data.b_steps;
+    },
+    updateGomokuSteps(state, data){
+      state.gomoku_steps = data.gomoku_steps;
     },
     updateRecordLoser(state, record_loser){
       state.record_loser = record_loser;

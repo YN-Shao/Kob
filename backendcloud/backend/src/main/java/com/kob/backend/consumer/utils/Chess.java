@@ -4,6 +4,8 @@ import com.alibaba.fastjson2.JSONObject;
 import com.kob.backend.consumer.WebSocketServer;
 import com.kob.backend.pojo.Bot;
 import com.kob.backend.pojo.User;
+import com.kob.backend.pojo.GomokuRecord;
+
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -26,6 +28,7 @@ public class Chess extends Thread{
     private final ReentrantLock lock = new ReentrantLock();
     private String status =  "playing"; // playing -> finished
     private String loser = "";//all,A, B
+    private List<String> stepString = new ArrayList<>();
     private final static String addBotUrl = "http://127.0.0.1:3002/bot/add/";
 
 
@@ -51,9 +54,9 @@ public class Chess extends Thread{
             botCodeB = botB.getContent();
         }
 
-        this.playerA = new ChessPlayer(idA, botIdA, botCodeA, rows - 2 , 1, new ArrayList<>());
+        this.playerA = new ChessPlayer(idA, botIdA, botCodeA, new ArrayList<>());
         this.playerA.setColourCode("#000000");
-        this.playerB = new ChessPlayer(idB, botIdB,botCodeB,1, cols - 2, new ArrayList<>());
+        this.playerB = new ChessPlayer(idB, botIdB,botCodeB, new ArrayList<>());
         this.playerB.setColourCode("#ffffff");
         sendColorCode("#000000", "#ffffff");
     }
@@ -217,6 +220,7 @@ public class Chess extends Thread{
         if (this.g[step[0]][step[1]] == null) {
             this.emptySpace -= 1;
             this.g[step[0]][step[1]] = colourCode;
+            this.stepString.add(String.format("%d,%d,%s", step[0], step[1], colourCode));
             if (checkWin(step, colourCode)) {
                 return colourCode;
             }
@@ -269,15 +273,24 @@ public class Chess extends Thread{
         return res.toString();
     }
 
+    private String getStepString(){
+        StringBuilder res = new StringBuilder();
+        for(String step: stepString){
+            res.append(step);
+            res.append(" ");
+        }
+        return res.toString();
+    }
+
     private void updateUserRating(ChessPlayer player, Integer rating){
         User user = WebSocketServer.userMapper.selectById(player.getId());
-        user.setRating(rating);
+        user.setGomokuRating(rating);
         WebSocketServer.userMapper.updateById(user);
     }
 
     private void saveToDatabase(){
-        Integer ratingA = WebSocketServer.userMapper.selectById(playerA.getId()).getRating();
-        Integer ratingB = WebSocketServer.userMapper.selectById(playerB.getId()).getRating();
+        Integer ratingA = WebSocketServer.userMapper.selectById(playerA.getId()).getGomokuRating();
+        Integer ratingB = WebSocketServer.userMapper.selectById(playerB.getId()).getGomokuRating();
         if("A".equals(loser)){
             ratingA -= 2;
             ratingB += 5;
@@ -287,6 +300,16 @@ public class Chess extends Thread{
         }
         updateUserRating(playerA, ratingA);
         updateUserRating(playerB, ratingB);
+
+        GomokuRecord gomokuRecord = new GomokuRecord(
+                null,
+                playerA.getId(),
+                playerB.getId(),
+                getStepString(),
+                loser,
+                new Date()
+        );
+        WebSocketServer.gomokuRecordMapper.insert(gomokuRecord);
     }
 
     private void sendResult(){  //向客户端广播
