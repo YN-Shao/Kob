@@ -7,6 +7,7 @@ import com.kob.backend.mapper.UserMapper;
 import com.kob.backend.pojo.Game;
 import com.kob.backend.pojo.Rating;
 import com.kob.backend.pojo.User;
+import com.kob.backend.service.impl.util.Email;
 import com.kob.backend.service.user.account.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,7 +34,8 @@ public class RegisterServiceImpl implements RegisterService {
     private PasswordEncoder passwordEncoder;
     @Transactional
     @Override
-    public Map<String, String> register(String username, String password, String confirmPassword) {
+    public Map<String, String> register(String username, String email, String password, String confirmPassword) {
+
         Map<String,String> map = new HashMap<>();
         if(username == null ){
             map.put("error_message","Username can not be empty");
@@ -65,6 +67,10 @@ public class RegisterServiceImpl implements RegisterService {
             map.put("error_message","Passwords do not match");
             return map;
         }
+        if(email.split("@").length != 2){
+            map.put("error_message","Please enter valid email");
+            return map;
+        }
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username",username);
         List<User> users = userMapper.selectList(queryWrapper); //根据用户名查询用户
@@ -86,6 +92,7 @@ public class RegisterServiceImpl implements RegisterService {
             Rating newRating = new Rating(newUserId, gameId, 1500);
             ratingMapper.insert(newRating);
         }
+        Email.send(email, username);
 
         map.put("error_message","success");
         return map;

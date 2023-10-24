@@ -8,6 +8,10 @@
                             <input v-model="username" type="text" class="form-control" id="username" aria-describedby="Please input username">
                         </div>
                         <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input v-model="email" type="email" class="form-control" id="email" aria-describedby="Please input email">
+                        </div>
+                        <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
                             <input v-model="password" type="password" class="form-control" id="password" aria-describedby="Please input password">
                         </div>
@@ -34,6 +38,7 @@ export default{
     },
     setup(){
         let username = ref("");
+        let email = ref("");
         let password = ref("");
         let confirmedPassword = ref("");
         let error_message = ref("");
@@ -44,6 +49,7 @@ export default{
                 type:"post",//会修改数据库就post，安全性强一些
                 data:{
                     username: username.value,
+                    email: email.value,
                     password: password.value,
                     confirmedPassword: confirmedPassword.value,
                 },

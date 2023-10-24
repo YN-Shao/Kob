@@ -52,15 +52,16 @@ export class GomokuBoard extends AcGameObjects{
 
             console.log(this.store.state.record);
 
-            const steps = this.store.state.record.steps;
+            const steps = this.store.state.record.gomoku_steps.split(" ");
             const loser = this.store.state.record.record_loser;
             // const pieces = this.pieces;
             const interval_id = setInterval(() => {//每300ms传入一次方向
-                if( k >= a_steps.length - 1){
+                if( k >= steps.length - 1){
                     clearInterval(interval_id);
                 }else{
-                    this.pieces.push(parseInt(steps[k]));
+                    this.pieces[parseInt(steps[k].split(",")[0])][parseInt(steps[k].split(",")[1])].set_color(steps[k].split(",")[2]);
                 }
+                // window.alert(steps[k])
                 k++;
             },300);
 
