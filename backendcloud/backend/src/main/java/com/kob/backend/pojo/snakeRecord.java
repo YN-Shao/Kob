@@ -52,9 +52,9 @@ public class snakeRecord {
     public void setId(Integer id) {
         this.id = id;
     }
-
-    // ... the same for other fields ...
-    // for example:
+    public void setBId(Integer bId) {
+        this.bId = bId;
+    }
 
     public Integer getAId() {
         return this.aId;

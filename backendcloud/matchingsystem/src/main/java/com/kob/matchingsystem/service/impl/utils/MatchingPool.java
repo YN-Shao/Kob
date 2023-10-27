@@ -53,7 +53,7 @@ public class MatchingPool extends Thread {
             }
     }
 
-    private boolean checkMatched(Player a, Player b){
+    boolean checkMatched(Player a, Player b){
         int ratingDiff = Math.abs(a.getRating() - b.getRating());
         int waitingTime = Math.min(a.getWaitingTime(), b.getWaitingTime());
         return Objects.equals(a.getGameId(), b.getGameId()) && ratingDiff <= waitingTime * 10;
@@ -75,7 +75,7 @@ public class MatchingPool extends Thread {
         }
     }
 
-    private void matchPlayers(){ //尝试匹配结果
+    void matchPlayers(){ //尝试匹配结果
         System.out.println("Matching players" + players.toString());
         boolean[] used = new boolean[players.size()];
         for(int i = 0 ;i < players.size() ; i++){

@@ -1,16 +1,17 @@
 <template>
-    <ContentBase>
-        <div class="row">
-            <div class="col-3">
-                <!--UserProfileInfo @follow="follow" @unfollow="unfollow" v-bind:user="user" /-->
-                <UserProfileInfo v-if="user" :user="user" />
-                <UserProfileWrite v-if="is_me" @post_a_post="post_a_post" />
-            </div>
-            <div class="col-9">
-                <UserProfilePosts :user="user" :posts="posts" @delete_a_post="delete_a_post"/>
-            </div>
-        </div>
-    </ContentBase>
+  <ContentBase>
+    <div class="row">
+      <div class="col-3">
+        <!--UserProfileInfo @follow="follow" @unfollow="unfollow" v-bind:user="user" /-->
+        <UserProfileInfo v-if="user" :user="user" />
+        <button @click="navigateToInfoManagement">Info Management</button>
+        <UserProfileWrite v-if="is_me" @post_a_post="post_a_post" />
+      </div>
+      <div class="col-9">
+        <UserProfilePosts :user="user" :posts="posts" @delete_a_post="delete_a_post"/>
+      </div>
+    </div>
+  </ContentBase>
 </template>
   
 <script>
@@ -31,6 +32,11 @@ export default {
         UserProfileInfo,
         UserProfilePosts,
         UserProfileWrite
+    },
+    methods: {
+      navigateToInfoManagement() {
+        this.$router.push({ name: 'user_profile_change' });
+      }
     },
     setup() {
         const store = useStore();

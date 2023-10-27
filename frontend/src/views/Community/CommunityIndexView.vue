@@ -1,18 +1,25 @@
 <template>
     <ContentBase>
         <!-- Loop through users and display their posts and details -->
-        <div class="card" v-for="post in posts.posts" :key="post.postId">
+        <div class="card outer-card" v-for="post in posts.posts" :key="post.postId">
             <div class="card-body">
-                <div class="row">
-                    <div class="col-3">
+
+                <!-- for UserProfileInfo -->
+                <div class="row"> 
+                    <div class="col-4">
+                        <!-- UserProfileInfo component for displaying user's profile info -->
                         <UserProfileInfo v-if="post.user" :user="post.user" />
-                        
                     </div>
-                    <div class="col-9">
-                        <!-- Passing entire post object to UserProfilePosts -->
+                    <div class="col-8"></div>
+                </div>
+
+                <!-- UserProfilePosts -->
+                <div class="row">
+                    <div class="col-12">
                         <UserProfilePosts :user="post.user" :posts="{ posts: [post] }" />
                     </div>
                 </div>
+                
             </div>
         </div>
     </ContentBase>
@@ -81,29 +88,32 @@ export default {
 </script>
   
   
+
 <style scoped>
-img {
-    border-radius: 50%;
-}
-
-
 .card {
-    margin-bottom: 20px;
     cursor: pointer;
-} 
-
-.card:hover {
-    box-shadow: 2px 2px 10px lightgrey;
-    transition: 500ms;
+    background-color: #f5f5f5;
+    border: none;
 }
 
-.img-field {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.outer-card {
+    margin-bottom: 30px; /* 将外部卡片的距离设置为30px */
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1); /* 默认的阴影效果 */
+    transition: box-shadow 0.5s;
 }
 
+.outer-card:hover {
+    box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.2); /* 悬浮效果时的阴影 */
+}
 
+::v-deep .card .img-fluid {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+}
 
+::v-deep .card .img-field img {
+    margin-left: 10px; /* adjust as needed */
+}
 </style>
 

@@ -24,21 +24,7 @@ public class UserProfileController {
 
     // Update user information
     @PostMapping("/update")
-    public Map<String, String> updateInfo(@RequestBody Map<String, String> data){
+    public Map<String, Object> updateInfo(@RequestBody Map<String, String> data){
         return userProfileService.updateInfo(data);
     }
-
-    // Get list of robots
-    @GetMapping("/bots")
-    public List<Bot> getBots() {
-        return userProfileService.getBots();
-    }
-
-    // Get list of game records
-    @GetMapping("/records")
-    public List<snakeRecord> getRecords() {
-        return userProfileService.getRecords();
-    }
-
-
 }

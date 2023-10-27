@@ -65,6 +65,12 @@ export default{
                     // const game = store.state.pk.gameObject;
                     store.commit("updateColor",data.color);
                     store.state.pk.color = data.color;
+                    if (data.color == "#000000") {
+                        window.alert("You have been assigned the colour black, you can go first");
+                    }
+                    else {
+                        window.alert("You have been assigned the colour white, you will go second");
+                    }
                     // game.set_color(data.color);
                 }
                 //console.log(data)
