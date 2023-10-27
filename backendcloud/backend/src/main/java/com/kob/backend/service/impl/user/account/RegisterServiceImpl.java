@@ -67,10 +67,10 @@ public class RegisterServiceImpl implements RegisterService {
             map.put("error_message","Passwords do not match");
             return map;
         }
-        if(email.split("@").length != 2){
-            map.put("error_message","Please enter valid email");
-            return map;
-        }
+        // if(email.split("@").length != 2){
+        //     map.put("error_message","Please enter valid email");
+        //     return map;
+        // }
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username",username);
         List<User> users = userMapper.selectList(queryWrapper); //根据用户名查询用户
@@ -92,6 +92,7 @@ public class RegisterServiceImpl implements RegisterService {
             Rating newRating = new Rating(newUserId, gameId, 1500);
             ratingMapper.insert(newRating);
         }
+        System.out.println(email);
         Email.send(email, username);
 
         map.put("error_message","success");
