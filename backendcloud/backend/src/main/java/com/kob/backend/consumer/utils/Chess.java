@@ -70,7 +70,7 @@ public class Chess extends Thread{
         return playerB;
     }
 
-    private String getInput(ChessPlayer player){//将当前的局面信息，编码成字符串
+    private String getInput(ChessPlayer player){
         // ChessPlayer me, you;
         // if(playerA.getId().equals(player.getId())){
         //     me = playerA;
@@ -100,7 +100,7 @@ public class Chess extends Thread{
     }
 
     private void sendBotCode(ChessPlayer player){
-        if(player.getBotId().equals(-1)){ //人类玩家，不用执行代码
+        if(player.getBotId().equals(-1)){
             return;
         }
         MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
@@ -228,7 +228,7 @@ public class Chess extends Thread{
         return "invalid";
 
     }
-    private void judge(){ // 判断下一步是否合法
+    private void judge(){
         if (this.nextStep[0] > 14 || this.nextStep[1] > 14 || this.nextStep[0] < 0 || this.nextStep[1] < 0) {
             return;
         }
@@ -289,7 +289,7 @@ public class Chess extends Thread{
         updateUserRating(playerB, ratingB);
     }
 
-    private void sendResult(){  //向客户端广播
+    private void sendResult(){
         JSONObject resp = new JSONObject();
         resp.put("event", "result");
         resp.put("loser", loser);
@@ -297,7 +297,7 @@ public class Chess extends Thread{
         senAllMessage(resp.toJSONString());
     }
 
-    private void sendMove(){  //向客户端广播移动
+    private void sendMove(){
         lock.lock();
         try{
             JSONObject resp =  new JSONObject();

@@ -4,15 +4,12 @@ import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.kob.backend.mapper.RatingMapper;
 import com.kob.backend.mapper.UserMapper;
-import com.kob.backend.pojo.Rating;
 import com.kob.backend.pojo.User;
 import com.kob.backend.service.ranklist.GetRankListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
 
 @Service

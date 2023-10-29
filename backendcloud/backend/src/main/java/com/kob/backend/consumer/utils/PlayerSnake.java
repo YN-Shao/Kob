@@ -14,7 +14,7 @@ public class PlayerSnake {
     private Integer sx;
     private Integer sy;
     private List<Integer> steps;
-    private Boolean check_tail_increasing(int step) {  //检验当前回合蛇长度是否增加
+    private Boolean check_tail_increasing(int step) {  //Check whether the snake length increases in the current round
         if(step <= 10) {
             return true;
         }

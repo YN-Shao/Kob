@@ -12,7 +12,7 @@ import java.util.Map;
 public class LoginController {
     @Autowired
     private LoginService loginService;
-    @PostMapping("/user/account/token/") //记得要在SecurityConfig中配置使其公开化
+    @PostMapping("/user/account/token/") //Remember to configure it in SecurityConfig to make it public
     public Map<String, String> getToken(@RequestParam Map<String,String> map){
         String username = map.get("username");
         String password = map.get("password");

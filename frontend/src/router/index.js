@@ -22,7 +22,7 @@ import UserInformationChange from "../views/Profile/UserInformationChange";
  
 const routes = [
   {
-    path: "/home/",
+    path: "/",
     name : "home",
     meta:{
       requestAuth: true, //给每个页面增加一个meta域，判断是否需要授权

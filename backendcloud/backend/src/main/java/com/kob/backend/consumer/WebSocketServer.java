@@ -5,7 +5,6 @@ import com.kob.backend.consumer.utils.Chess;
 import com.kob.backend.consumer.utils.GameSnake;
 import com.kob.backend.consumer.utils.JwtAuthentication;
 import com.kob.backend.mapper.BotMapper;
-import com.kob.backend.mapper.RatingMapper;
 import com.kob.backend.mapper.RecordMapper;
 import com.kob.backend.mapper.UserMapper;
 import com.kob.backend.pojo.Bot;
@@ -24,25 +23,26 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
 
 @Component
-@ServerEndpoint("/websocket/{token}")  // 注意不要以'/'结尾
+@ServerEndpoint("/websocket/{token}")  // not to end with '/'
 public class WebSocketServer {
-    private Session session = null; //每个链接用session维护，对应一个用户
+    private Session session = null; //Each link is maintained by session and corresponds to a user
     private User user;
 
-    //为了可以根据用户ID找到对应的链接，才可以给Client发请求，ConcurrentHashMap是线程安全的，用来存储所有的链接,对所有实例可见
+    //In order to find the corresponding link based on the user ID before sending a request to the Client, ConcurrentHashMap is thread-safe and is used to store all links and is visible to all instances.
     final public static ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();
     public static UserMapper userMapper;
     public Chess chess = null;
     public GameSnake gameSnake = null;
     public static RecordMapper recordMapper;
     private static BotMapper botMapper;
-    public static RestTemplate restTemplate ;//可以让两个服务之间互相通信
+    public static RestTemplate restTemplate ;
     private final static String addPlayerUrl = "http://127.0.0.1:3001/player/add/";
     private final static String removePlayerUrl = "http://127.0.0.1:3001/player/remove/";
     @Autowired
     public void setUserMapper(UserMapper userMapper){
         WebSocketServer.userMapper = userMapper;
-    }//因为不是单例模式(同一时间只能有一个实例）而是每建立一个链接就会创建一个实例，所以不能用自动注入，要用静态方法注入
+    }//Because it is not a singleton mode (there can only be one instance at the same time)
+    // but an instance is created every time a link is established, so automatic injection cannot be used and static method injection must be used.
 
     @Autowired
     public void setRecordMapper(RecordMapper recordMapper){
@@ -60,7 +60,7 @@ public class WebSocketServer {
 
     @OnOpen
     public void onOpen(Session session, @PathParam("token") String token) throws IOException{
-        // 建立连接
+        // establish connection
         this.session = session;
         System.out.println("Snake connect");
         Integer userId = JwtAuthentication.getUserId(token); // 从token中获取userId
@@ -182,7 +182,7 @@ public class WebSocketServer {
     }
 
     private void startMatching(Integer botId, Integer gameId){
-        //开始匹配
+
         System.out.println("Snake start-matching");
         MultiValueMap<String ,String> data = new LinkedMultiValueMap<>();
         data.add("user_id", this.user.getId().toString());
@@ -192,7 +192,7 @@ public class WebSocketServer {
         restTemplate.postForObject(addPlayerUrl, data, String.class);
     }
     private void stopMatching(){
-        //停止匹配
+
         System.out.println("Snake stop-matching");
         MultiValueMap<String ,String> data = new LinkedMultiValueMap<>();
         data.add("user_id", this.user.getId().toString());
@@ -218,15 +218,15 @@ public class WebSocketServer {
 
     @OnMessage
     public void onMessage(String message, Session session) {
-        // 从Client接收消息时触发此函数
+        // triggered when a message is received from the Client
         JSONObject data = JSONObject.parseObject(message);
-        String event = data.getString("event");//接收前端传来的"event"
+        String event = data.getString("event");//Receive "event" from the front end
         System.out.println("game_id " + data.getInteger("game_id"));
         if("start-matching".equals(event)){
-            //开始匹配
+
             startMatching(data.getInteger("bot_id"), data.getInteger("game_id"));
         }else if ("stop-matching".equals(event)){
-            //停止匹配
+
             stopMatching();
         }
         else if("move".equals(event)){
@@ -243,7 +243,7 @@ public class WebSocketServer {
         error.printStackTrace();
         System.out.println("onError");
     }
-    public void sendMessage(String message){  //  从后端向Client发送消息
+    public void sendMessage(String message){  //  Send message to Client from backend
         synchronized (this.session){
             try{
                 this.session.getBasicRemote().sendText(message);
