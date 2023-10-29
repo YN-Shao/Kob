@@ -79,7 +79,7 @@ create table post
 ```
 
 ## Third Step
-After creating the database, you can run the application by first gradle build all the package inside backend cloud, so that is the backend package, the botrunningsystem package and machingsystem package. After you had build those package, you can run them by running their jar file directly using the following command:
+After creating the database, you can run the application by first gradle build all the package inside backend cloud, so that is the backend package, the botrunningsystem package and machingsystem package. The frontend runs on localhost:8080, while the backend runs on localhost:3000, 3001, and 3002 ports. Please ensure these port numbers are not occupied. After you had build those package, you can run them by running their jar file directly using the following command:
 
 ```
 "your java path" '-Dcom.sun.management.jmxremote' '-Dcom.sun.management.jmxremote.port=50362' '-Dcom.sun.management.jmxremote.authenticate=false' '-Dcom.sun.management.jmxremote.ssl=false' '-Dspring.jmx.enabled=true' '-Djava.rmi.server.hostname=localhost' '-Dspring.application.admin.enabled=true' '-Dspring.boot.project.name=backend' '-cp' "your jar" 'com.kob.backend.BackendApplication' 
