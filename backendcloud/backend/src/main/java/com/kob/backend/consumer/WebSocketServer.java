@@ -5,6 +5,8 @@ import com.kob.backend.consumer.utils.Chess;
 import com.kob.backend.consumer.utils.GameSnake;
 import com.kob.backend.consumer.utils.JwtAuthentication;
 import com.kob.backend.mapper.BotMapper;
+
+import com.kob.backend.mapper.GomokuRecordMapper;
 import com.kob.backend.mapper.RecordMapper;
 import com.kob.backend.mapper.UserMapper;
 import com.kob.backend.pojo.Bot;
@@ -34,6 +36,7 @@ public class WebSocketServer {
     public Chess chess = null;
     public GameSnake gameSnake = null;
     public static RecordMapper recordMapper;
+    public static GomokuRecordMapper gomokuRecordMapper;
     private static BotMapper botMapper;
     public static RestTemplate restTemplate ;
     private final static String addPlayerUrl = "http://127.0.0.1:3001/player/add/";
@@ -47,6 +50,11 @@ public class WebSocketServer {
     @Autowired
     public void setRecordMapper(RecordMapper recordMapper){
         WebSocketServer.recordMapper = recordMapper;
+    }
+
+        @Autowired
+    public void setGomokuRecordMapper(GomokuRecordMapper gomokuRecordMapper){
+        WebSocketServer.gomokuRecordMapper = gomokuRecordMapper;
     }
 
     @Autowired
@@ -157,11 +165,7 @@ public class WebSocketServer {
 
         JSONObject respGame = new JSONObject();
         respGame.put("a_id", chess.getPlayerA().getId());
-        respGame.put("a_sx", chess.getPlayerA().getSx());
-        respGame.put("a_sy", chess.getPlayerA().getSy());
         respGame.put("b_id", chess.getPlayerB().getId());
-        respGame.put("b_sx", chess.getPlayerB().getSx());
-        respGame.put("b_sy", chess.getPlayerB().getSy());
         respGame.put("map", chess.getG());
 
         JSONObject respA = new JSONObject();

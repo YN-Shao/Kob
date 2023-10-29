@@ -19,4 +19,11 @@ public class GetRecordListController {
         return getRecordListService.getList(page);
     }
 
+
+    @GetMapping("/record/getgomokulist/")
+    JSONObject getGomokuList(@RequestParam Map<String, String> data){
+        System.out.println(data.get("page"));
+        Integer page = Integer.parseInt(data.get("page"));
+        return getRecordListService.getGomokuList(page);
+    }
 }

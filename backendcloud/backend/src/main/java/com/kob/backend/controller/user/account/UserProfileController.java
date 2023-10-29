@@ -24,7 +24,7 @@ public class UserProfileController {
 
     // Update user information
     @PostMapping("/update")
-    public Map<String, String> updateInfo(@RequestBody Map<String, String> data){
+    public Map<String, Object> updateInfo(@RequestBody Map<String, String> data){
         return userProfileService.updateInfo(data);
     }
 }

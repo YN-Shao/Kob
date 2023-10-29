@@ -29,6 +29,14 @@ const routes = [
     },
     component:HomeIndexView,
   },
+  {
+    path: "/",
+    name : "home",
+    meta:{
+      requestAuth: true, //给每个页面增加一个meta域，判断是否需要授权
+    },
+    component:HomeIndexView,
+  },
 
   {
     path : "/Introduction/gomoku/",

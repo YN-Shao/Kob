@@ -4,17 +4,13 @@
     <div v-if="isModalVisible" class="modal">
       <div class="modal-content">
         <span @click="closeModal" class="close">&times;</span>
-
         <label>Choose a seed:</label>
         <select v-model="selectedSeed">
           <option v-for="presetSeed in presetSeeds" :key="presetSeed" :value="presetSeed">{{ presetSeed }}</option>
         </select>
         <input v-model="customSeed" placeholder="Or enter your own seed" />
-
         <button @click="generateAvatar">Generate Avatar</button>
-
         <img v-if="generatedAvatar" :src="generatedAvatar" alt="Generated Avatar" />
-
         <button @click="confirmAvatar">Confirm</button>
       </div>
     </div>
@@ -22,6 +18,8 @@
 </template>
 
 <script>
+import {mapActions} from "vuex";  // Import axios for making HTTP requests
+
 export default {
   props: {
     showModal: {
@@ -29,32 +27,38 @@ export default {
       required: true
     }
   },
-
   data() {
     return {
-      isModalVisible: this.showModal, // Using local data instead of mutating prop
+      isModalVisible: this.showModal,
       generatedAvatar: '',
       presetSeeds: ['apple', 'banana', 'cherry', 'date'],
       customSeed: '',
       selectedSeed: 'apple'
     };
   },
-
   watch: {
     showModal(newVal) {
-      this.isModalVisible = newVal; // Sync the prop value with local data
+      this.isModalVisible = newVal;
     }
   },
-
   methods: {
+    ...mapActions(['getProfileInfo', 'updateProfileInfo', 'updateAvatarMethod']),
     generateAvatar() {
       const seed = this.customSeed || this.selectedSeed;
       this.generatedAvatar = `https://api.dicebear.com/7.x/lorelei/svg?seed=${seed}`;
     },
-
-    confirmAvatar() {
-      this.$emit('avatarSelected', this.generatedAvatar);
-      this.closeModal();
+    async confirmAvatar() {
+      try {
+        const data = {
+          photo: this.generatedAvatar
+        };
+        await this.updateProfileInfo(data);
+        alert('Avatar updated successfully!');
+        this.closeModal();
+      } catch (error) {
+        this.errorMessage = 'An error occurred while updating avatar.';
+        alert(this.errorMessage);
+      }
     },
 
     closeModal() {

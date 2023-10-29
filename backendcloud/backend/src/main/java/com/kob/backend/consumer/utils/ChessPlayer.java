@@ -12,29 +12,25 @@ public class ChessPlayer {
     private Integer id;
     private Integer botId;
     private String botCode;
-    private Integer sx;
-    private Integer sy;
     private List<Integer[]> steps;
     private String colourCode;
 
-    public String getStepString(){
-        StringBuilder res = new StringBuilder();
-        for(Integer[] d : steps){
-            res.append(d[0]);
-            res.append(d[1]);
-        }
-        return res.toString();
-    }
+    // public String getStepString(){
+    //     StringBuilder res = new StringBuilder();
+    //     for(Integer[] d : steps){
+    //         res.append(d[0]);
+    //         res.append(d[1]);
+    //     }
+    //     return res.toString();
+    // }
 
     public ChessPlayer() {
     }
 
-    public ChessPlayer(Integer id, Integer botId, String botCode, Integer sx, Integer sy, List<Integer[]> steps) {
+    public ChessPlayer(Integer id, Integer botId, String botCode, List<Integer[]> steps) {
         this.id = id;
         this.botId = botId;
         this.botCode = botCode;
-        this.sx = sx;
-        this.sy = sy;
         this.steps = steps;
     }
 
@@ -50,22 +46,6 @@ public class ChessPlayer {
     }
     public Integer getBotId() {
         return botId;
-    }
-
-    public Integer getSx() {
-        return sx;
-    }
-
-    public void setSx(Integer sx) {
-        this.sx = sx;
-    }
-
-    public Integer getSy() {
-        return sy;
-    }
-
-    public void setSy(Integer sy) {
-        this.sy = sy;
     }
 
     public List<Integer[]> getStep() {
@@ -92,8 +72,6 @@ public class ChessPlayer {
     public String toString() {
         return "Player{" +
                 "id=" + id +
-                ", sx=" + sx +
-                ", sy=" + sy +
                 ", steps=" + steps +
                 '}';
     }
