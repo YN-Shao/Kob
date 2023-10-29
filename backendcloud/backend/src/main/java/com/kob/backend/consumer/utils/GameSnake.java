@@ -126,7 +126,7 @@ public class GameSnake extends Thread{
         return playerSnakeB;
     }
 
-    private String getInput(PlayerSnake playerSnake){//将当前的局面信息，编码成字符串
+    private String getInput(PlayerSnake playerSnake){//Encode the current situation information into a string
         PlayerSnake me, you;
         if(playerSnakeA.getId().equals(playerSnake.getId())){
             me = playerSnakeA;
@@ -145,7 +145,7 @@ public class GameSnake extends Thread{
     }
 
     private void sendBotCode(PlayerSnake playerSnake){
-        if(playerSnake.getBotId().equals(-1)){ //人类玩家，不用执行代码
+        if(playerSnake.getBotId().equals(-1)){ //Human players, no need to execute code
             return;
         }
         MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
@@ -217,7 +217,7 @@ public class GameSnake extends Thread{
         }
         return true;
     }
-    private void judge(){ // 判断下一步是否合法
+    private void judge(){ // Determine whether the next step is legal
         List<Cell> cellsA = playerSnakeA.getCells();
         List<Cell> cellsB = playerSnakeB.getCells();
         boolean validA = check_valid(cellsA, cellsB);
@@ -283,7 +283,7 @@ public class GameSnake extends Thread{
         WebSocketServer.recordMapper.insert(snakeRecord);
     }
 
-    private void sendResult(){  //向客户端广播
+    private void sendResult(){  //Broadcast to clients
         JSONObject resp = new JSONObject();
         resp.put("event", "result");
         resp.put("loser", loser);
@@ -291,7 +291,7 @@ public class GameSnake extends Thread{
         senAllMessage(resp.toJSONString());
     }
 
-    private void sendMove(){  //向客户端广播移动
+    private void sendMove(){  //Broadcast mobile to clients
         lock.lock();
         try{
             JSONObject resp =  new JSONObject();

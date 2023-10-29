@@ -12,7 +12,7 @@ import java.util.Map;
 public class RegisterController {
     @Autowired
     private RegisterService registerService;
-    @PostMapping("/user/account/register/") //记得要在SecurityConfig中配置使其公开化
+    @PostMapping("/user/account/register/") //configure it in SecurityConfig to make it public
     public Map<String, String> register(@RequestParam Map<String,String> map){
         System.out.println(map.get("username"));
         String username = map.get("username");

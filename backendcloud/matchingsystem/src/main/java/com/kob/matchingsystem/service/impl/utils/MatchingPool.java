@@ -58,7 +58,7 @@ public class MatchingPool extends Thread {
         int waitingTime = Math.min(a.getWaitingTime(), b.getWaitingTime());
         return Objects.equals(a.getGameId(), b.getGameId()) && ratingDiff <= waitingTime * 10;
     }
-    private void sendResult(Player a,Player b){ // 返回A，B的匹配结果
+    private void sendResult(Player a,Player b){
         System.out.println("SendResult" + a.toString() + b.toString());
         MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
         data.add("a_id", a.getUserId().toString());
@@ -75,7 +75,7 @@ public class MatchingPool extends Thread {
         }
     }
 
-    void matchPlayers(){ //尝试匹配结果
+    void matchPlayers(){
         System.out.println("Matching players" + players.toString());
         boolean[] used = new boolean[players.size()];
         for(int i = 0 ;i < players.size() ; i++){

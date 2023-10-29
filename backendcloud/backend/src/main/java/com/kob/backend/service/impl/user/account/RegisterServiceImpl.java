@@ -1,11 +1,7 @@
 package com.kob.backend.service.impl.user.account;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.kob.backend.mapper.GameMapper;
-import com.kob.backend.mapper.RatingMapper;
 import com.kob.backend.mapper.UserMapper;
-import com.kob.backend.pojo.Game;
-import com.kob.backend.pojo.Rating;
 import com.kob.backend.pojo.User;
 import com.kob.backend.service.impl.util.Email;
 import com.kob.backend.service.user.account.RegisterService;
@@ -23,12 +19,6 @@ import java.util.Map;
 public class RegisterServiceImpl implements RegisterService {
     @Autowired
     private UserMapper userMapper;
-
-    @Autowired
-    private RatingMapper ratingMapper;
-
-    @Autowired
-    private GameMapper gameMapper;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -73,7 +63,7 @@ public class RegisterServiceImpl implements RegisterService {
         // }
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username",username);
-        List<User> users = userMapper.selectList(queryWrapper); //根据用户名查询用户
+        List<User> users = userMapper.selectList(queryWrapper); //select user by userId
         if(users.size() != 0){
             map.put("error_message","User already exists");
             return map;
@@ -84,16 +74,6 @@ public class RegisterServiceImpl implements RegisterService {
         User user = new User(null, username, encodedPassword, photo,1500,1500);
         userMapper.insert(user);
 
-        // 为新用户初始化评分
-        Integer newUserId = user.getId();
-        List<Game> allGames = gameMapper.selectList(new QueryWrapper<>());
-        for (Game game : allGames) {
-            Integer gameId = game.getId();
-            Rating newRating = new Rating(newUserId, gameId, 1500);
-            ratingMapper.insert(newRating);
-        }
-        System.out.println(email);
-        Email.send(email, username);
 
         map.put("error_message","success");
         return map;
