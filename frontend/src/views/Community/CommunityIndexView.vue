@@ -10,7 +10,9 @@
                         <!-- UserProfileInfo component for displaying user's profile info -->
                         <UserProfileInfo v-if="post.user" :user="post.user" />
                     </div>
-                    <div class="col-8"></div>
+                    <div class="col-8">
+        
+                    </div>
                 </div>
 
                 <!-- UserProfilePosts -->

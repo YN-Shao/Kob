@@ -14,7 +14,7 @@ import UserAccountLoginView from '../views/User/account/UserAccountLoginView'
 import UserAccountRegisterView from '../views/User/account/UserAccountRegisterView'
 
 //userprofile2
-import UserProfileView2 from  '../views/Profile/UserProfileView2'
+import UserProfileView from  '../views/Profile/UserProfileView'
 import HomeIndexView from '../views/Home/HomeIndexView'
 import CommunityIndexView from  '../views/Community/CommunityIndexView'
 import store from'../store/index'
@@ -125,7 +125,7 @@ const routes = [
   },
 
 
-  //userprofile1 & 2
+  //userprofile
   {
     path : "/User/changeInfo/",
     name : "user_profile_change",
@@ -135,12 +135,12 @@ const routes = [
     component:UserInformationChange,
   },
   {
-    path : "/User/profile2/:userId/",
-    name : "user_profile2",
+    path : "/User/Profile/:userId/",
+    name : "user_profile",
     meta:{
       requestAuth: true, 
     },
-    component:UserProfileView2,
+    component:UserProfileView,
   },
 
 
