@@ -9,6 +9,7 @@ import java.net.URL;
 public class Email {
     public static void send(String email, String username) {
         String apiKey = "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";
+        apiKey = "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";
         String apiUrl = "https://api.brevo.com/v3/smtp/email";
 
         try {
@@ -40,6 +41,8 @@ public class Email {
             }
 
             int responseCode = connection.getResponseCode();
+            System.out.println(connection.getContent());
+            System.out.println(responseCode);
 
             if (responseCode == 201) {
                 System.out.println("Request sent successfully.");

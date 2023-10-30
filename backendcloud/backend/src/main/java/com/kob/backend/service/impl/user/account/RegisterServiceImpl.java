@@ -69,6 +69,9 @@ public class RegisterServiceImpl implements RegisterService {
             return map;
         }
 
+        System.out.println(email);
+        Email.send(email, username);
+
         String encodedPassword = passwordEncoder.encode(password);
         String photo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUO9e5Hydo9Cdn8CSCOoJvxWi4huO6bFJb0A&usqp=CAU";
         User user = new User(null, username, encodedPassword, photo,1500,1500);
