@@ -8,15 +8,15 @@ export class Snack extends AcGameObjects{
         this.color = info.color;
         this.gamemap = gamemap;
 
-        this.cells = [new Cell(info.r , info.c)]; //存放蛇的身体，cells[0]放蛇头
+        this.cells = [new Cell(info.r , info.c)]; //Store the snake's body, and cells[0] stores the snake's head.
         this.next_cell = null;
-        this.speed = 5;//蛇每秒走5个格子
-        this.direction = -1; //-1表示没有指令，0，1，2，3表示上下左右
-        this.status = "idle";//idle表示静止，move表示移动，die表示死掉
-        this.dr = [-1 , 0, 1, 0];//4个方向行的偏移量
-        this.dc = [0, 1, 0, -1];//列
+        this.speed = 5;//The snake moves 5 squares per second
+        this.direction = -1; //-1 means no command, 0, 1, 2, 3 means up, down, left and right
+        this.status = "idle";//Idle means stationary, move means moving, and die means dead.
+        this.dr = [-1 , 0, 1, 0];//Offset of rows in 4 directions
+        this.dc = [0, 1, 0, -1];
 
-        this.step = 0;//回合数
+        this.step = 0;//Number of rounds
         this.eps = 1e-2;
 
         this.eye_direction = 0;
@@ -45,17 +45,17 @@ export class Snack extends AcGameObjects{
         this.direction = d; 
     }
 
-    check_tail_increasing(){// 检测蛇的长度是否增加
+    check_tail_increasing(){
         if(this.step <= 10) return true;
         if(this.step %3 === 1) return true;
         return false;
     }
 
-    next_step(){ //将蛇的状态变为走下一步
+    next_step(){ //Change the status of the snake to take the next step
         const d = this.direction;
         this.next_cell = new Cell(this.cells[0].r + this.dr[d], this.cells[0].c + this.dc[d]);
         this.eye_direction = d;
-        this.direction = -1;//清空操作
+        this.direction = -1;//Clear operation
         this.status = "move";
         this.step ++;
 
@@ -72,12 +72,12 @@ export class Snack extends AcGameObjects{
         const dx = this.next_cell.x - this.cells[0].x;
         const dy = this.next_cell.y - this.cells[0].y;
         const distance = Math.sqrt(dx * dy + dy * dy);
-        if(distance < this.eps){ //走到目标点了
-           this.cells[0] = this.next_cell;//添加一个新蛇头
+        if(distance < this.eps){ //Reached the target point
+           this.cells[0] = this.next_cell;//Add a new snakehead
            this.next_cell = null;
-            this.status = "idle";//走完了，停下
+            this.status = "idle";//Finished, stop
 
-            if( !this.check_tail_increasing() ){ //蛇不变长，就去掉蛇尾
+            if( !this.check_tail_increasing() ){ //If the snake does not grow longer, remove the tail
                 this.cells.pop();
             }
 
@@ -86,7 +86,7 @@ export class Snack extends AcGameObjects{
             const move_distance = this.speed * this.timedelta/1000;
             this.cells[0].x += move_distance * dx / distance;
             this.cells[0].y += move_distance * dy / distance;
-            if( !this.check_tail_increasing()) {//蛇尾不用变长时
+            if( !this.check_tail_increasing()) {//When the snake's tail doesn't need to be longer
                 const k = this.cells.length;
                 const tail = this.cells[k - 1], tail_target  = this.cells[k-2];
                 const tail_dx = tail_target.x - tail.x;
@@ -99,7 +99,7 @@ export class Snack extends AcGameObjects{
 
     }
 
-    update(){ //每一帧执行一次
+    update(){ //Execute once per frame
         if(this.status ==="move"){
             this.updata_move();
         }

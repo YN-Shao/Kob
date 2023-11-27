@@ -1,19 +1,19 @@
 
 <template>
   <div class="container">
-    <!-- 左边三分之一的部分 -->
+    <!-- left third part -->
     <div class="left-section">
-      <!-- 上面是一张图片 -->
+      <!-- The above is a picture -->
       <div class="image-container">
         <img :src="require('@/assets/image/snake.jpg')" >
       </div>
-      <!-- 下面是一个Play的button -->
+      <!-- Below is a Play button -->
       <div class="button-container">
         <button type="button" class="btn btn-light" @click="goToPKIndex">Play now</button>
 
       </div>
     </div>
-    <!-- 中间部分 -->
+    <!-- middle part -->
     <div style="flex-grow: 1;"></div>
 
     <div class="description-container">
@@ -46,7 +46,7 @@
     </div>
   </div>
 
-    <!-- 右边的排行榜部分 -->
+    <!-- The ranking section on the right -->
     <div class="ranklist-container">
       <ContentField>
         <table class="table table-striped table-hover custom-table">

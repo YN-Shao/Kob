@@ -10,10 +10,10 @@ export class AcGameObjects{
 
     }
 
-    update(){//除了第一次，以后每次都执行
+    update(){//Except for the first time, execute it every time in the future.
 
     }
-    on_destroy(){ //删除之前
+    on_destroy(){ //before deletion
 
     }
 

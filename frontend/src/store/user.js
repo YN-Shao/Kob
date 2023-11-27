@@ -7,7 +7,7 @@ export default ({
     photo: "",
     token: "",
     is_login: false,
-    pulling_info: true,//是否正在拉取信息
+    pulling_info: true,//Whether information is being pulled
   },
   getters: {
   },
@@ -122,7 +122,7 @@ export default ({
               },
               data: JSON.stringify(data),
               success(resp) {
-                  if (resp.success) { // 检查 resp.success 而不是 resp.message
+                  if (resp.success) { // Check resp.success instead of resp.message
                       resolve(resp);
                   } else {
                       reject(resp);

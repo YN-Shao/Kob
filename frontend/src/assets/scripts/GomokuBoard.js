@@ -55,7 +55,7 @@ export class GomokuBoard extends AcGameObjects{
             const steps = this.store.state.record.gomoku_steps.split(" ");
             const loser = this.store.state.record.record_loser;
             // const pieces = this.pieces;
-            const interval_id = setInterval(() => {//每300ms传入一次方向
+            const interval_id = setInterval(() => {
                 if( k >= steps.length - 1){
                     clearInterval(interval_id);
                 }else{
@@ -102,24 +102,6 @@ export class GomokuBoard extends AcGameObjects{
     }
     next_step(){
     }
-
-    // check_valid(cell){//检测撞身体、障碍物
-    //     for(const wall of this.walls){//in下标，of值「
-    //         if(wall.r === cell.r && wall.c===cell.c)
-    //             return false;
-    //     }
-    //     for(const snack of this.snakes){
-    //         let k = snack.cells.length;
-    //         if(!snack.check_tail_increasing()){ //蛇尾前进时，蛇尾不用判断
-    //             k --;
-    //         }
-    //         for(let i=0 ; i<k ; i++){
-    //             if(snack.cells[i].r === cell.r && snack.cells[i].c === cell.c)
-    //                 return false;
-    //         }
-    //     }
-    //     return true;
-    // }
 
     update(){
         // windows.alert(1)

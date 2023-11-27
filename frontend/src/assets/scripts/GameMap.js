@@ -54,7 +54,7 @@ export class GameMap extends AcGameObjects{
             const b_steps = this.store.state.record.b_steps;
             const loser = this.store.state.record.record_loser;
             const [snake0, snake1] = this.snakes;
-            const interval_id = setInterval(() => {//每300ms传入一次方向
+            const interval_id = setInterval(() => {//Directions are passed in every 300ms
                 if( k >= a_steps.length - 1){
                     if(loser === "all" || loser ==="A"){
                         snake0.status = "die";
@@ -95,26 +95,26 @@ export class GameMap extends AcGameObjects{
     }   
 
     check_ready(){
-        for(const snake of this.snakes){  //判断两条蛇是否准备好下一回合
+        for(const snake of this.snakes){  //Determine whether two snakes are ready for the next turn
             if(snake.status !== "idle") return false;
             if(snake.direction === -1) return false;
         }
         return true;
     }
-    next_step(){//让两条蛇进入下一回合
+    next_step(){//Let both snakes advance to the next round
         for(const snake of this.snakes){
             snake.next_step();
         }
     }
 
-    check_valid(cell){//检测撞身体、障碍物
-        for(const wall of this.walls){//in下标，of值「
+    check_valid(cell){//Detect body collisions and obstacles
+        for(const wall of this.walls){
             if(wall.r === cell.r && wall.c===cell.c)
                 return false;
         }
         for(const snack of this.snakes){
             let k = snack.cells.length;
-            if(!snack.check_tail_increasing()){ //蛇尾前进时，蛇尾不用判断
+            if(!snack.check_tail_increasing()){ //When the snake's tail moves forward, the snake's tail does not need to judge
                 k --;
             }
             for(let i=0 ; i<k ; i++){

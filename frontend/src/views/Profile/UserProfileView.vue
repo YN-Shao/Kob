@@ -130,13 +130,13 @@ export default {
 }
 
 .outer-card {
-    margin-bottom: 30px; /* 将外部卡片的距离设置为30px */
-    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1); /* 默认的阴影效果 */
+    margin-bottom: 30px; 
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1); 
     transition: box-shadow 0.5s;
 }
 
 .outer-card:hover {
-    box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.2); /* 悬浮效果时的阴影 */
+    box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.2); 
 }
 
 ::v-deep .card .img-fluid {

@@ -25,7 +25,7 @@ const routes = [
     path: "/",
     name : "home",
     meta:{
-      requestAuth: true, //给每个页面增加一个meta域，判断是否需要授权
+      requestAuth: true, //Add a meta domain to each page to determine whether authorization is required
     },
     component:HomeIndexView,
   },
@@ -33,7 +33,7 @@ const routes = [
     path: "/",
     name : "home",
     meta:{
-      requestAuth: true, //给每个页面增加一个meta域，判断是否需要授权
+      requestAuth: true, //Add a meta domain to each page to determine whether authorization is required
     },
     component:HomeIndexView,
   },
@@ -189,7 +189,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    // 未登录时重定向到登陆页面
+    // Redirect to login page when not logged in
     if(to.meta.requestAuth && !store.state.user.is_login){
       next({name: "user_account_login"})
     }else{

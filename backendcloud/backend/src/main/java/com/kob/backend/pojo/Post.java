@@ -13,7 +13,7 @@ public class Post {
     public String postContent;
 
     public Post() {
-        // 无参构造函数
+
     }
     public Post(Integer userId, String content) {
         this.userId = userId;

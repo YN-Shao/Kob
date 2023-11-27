@@ -65,7 +65,7 @@ export default{
                         event: "start-matching",
                         bot_id: select_bot.value,
                         game_id : 2,
-                    }));  //向后端发这个JSON
+                    }));  
                 } else {
                     match_btn_info.value = "Start Matching";
                     store.state.pk.socket.send(JSON.stringify({
@@ -91,7 +91,7 @@ export default{
             }
 
         
-        refresh_bots();//从云端动态获取bots
+        refresh_bots();//Dynamically obtain bots from the cloud
 
         return {
             match_btn_info,
