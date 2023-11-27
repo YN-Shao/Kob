@@ -1,4 +1,3 @@
-# elec5619
 ## First Step
 Before running this application, ensure that your system had installed java, gradle, yarn and mySQL.
 
